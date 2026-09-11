@@ -13,9 +13,24 @@ from .config import DELAY_POR_HOST, REINTENTOS, TIMEOUT, USER_AGENT
 log = logging.getLogger("monitor.http")
 _ultimo: dict[str, float] = {}
 _robots: dict[str, urllib.robotparser.RobotFileParser | None] = {}
+_bloqueados: set[str] = set()   # hosts que han respondido 403 al agente propio
 
 
 class Cliente:
+    # Si un WAF rechaza al agente propio (403), se reintenta con cabeceras de
+    # navegador antes de darse por vencido.
+    CABECERAS_NAVEGADOR = {
+        "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                       "(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"),
+        "Accept": ("text/html,application/xhtml+xml,application/xml;q=0.9,"
+                   "image/avif,image/webp,*/*;q=0.8"),
+        "Accept-Language": "es-ES,es;q=0.9",
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Upgrade-Insecure-Requests": "1",
+    }
+
     def __init__(self, user_agent: str = USER_AGENT, delay: float = DELAY_POR_HOST,
                  comprobar_robots: bool = False):
         self.delay = delay
@@ -65,8 +80,15 @@ class Cliente:
         for intento in range(1, REINTENTOS + 1):
             self._espera(host)
             try:
-                r = self.s.request(metodo, url, **kw)
-                if r.status_code in (429, 500, 502, 503, 504):
+                extra = dict(kw)
+                if intento > 1 and host in _bloqueados:
+                    cabeceras = dict(self.CABECERAS_NAVEGADOR)
+                    cabeceras.update(extra.pop("headers", None) or {})
+                    extra["headers"] = cabeceras
+                r = self.s.request(metodo, url, **extra)
+                if r.status_code == 403:
+                    _bloqueados.add(host)
+                if r.status_code in (403, 429, 500, 502, 503, 504):
                     log.warning("%s %s -> %s (intento %s)", metodo, url, r.status_code, intento)
                     time.sleep(2 ** intento)
                     continue

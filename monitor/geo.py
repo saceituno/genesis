@@ -54,6 +54,16 @@ class Geocodificador:
         self.nuevas += 1
         return (v["lat"], v["lon"]) if v else None
 
+    def nombre_canonico(self, municipio: str | None, provincia: str | None = None) -> str | None:
+        """Nombre oficial del municipio según OpenStreetMap, si se pudo geocodificar."""
+        if not municipio:
+            return None
+        self.coords(municipio, provincia)
+        entrada = self.cache.get(self._clave(municipio, provincia))
+        if not entrada:
+            return None
+        return (entrada.get("nombre") or "").split(",")[0].strip() or None
+
     def distancia_a_barcelona(self, municipio: str | None, provincia: str | None = None) -> float | None:
         c = self.coords(municipio, provincia)
         return haversine_km(BARCELONA, c) if c else None

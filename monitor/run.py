@@ -12,10 +12,10 @@ import os
 import sys
 from dataclasses import asdict
 
-from . import store
-from .config import CRITERIOS
+from . import parse, store
+from .config import BARCELONA, CRITERIOS
 from .criteria import aplica
-from .geo import Geocodificador
+from .geo import Geocodificador, haversine_km
 from .http import Cliente
 from .models import Inmueble
 from .sources import todas
@@ -97,12 +97,13 @@ def principal(argv: list[str] | None = None) -> int:
 
 
 def _ubica(inm: Inmueble, geo: Geocodificador) -> None:
+    inm.municipio = parse.titulo_lugar(inm.municipio)
     coords = geo.coords(inm.municipio, inm.provincia)
     if coords:
         inm.lat, inm.lon = coords
-        from .geo import haversine_km
-        from .config import BARCELONA
         inm.distancia_km = haversine_km(BARCELONA, coords)
+        # El nombre oficial de OSM unifica las variantes de cada portal.
+        inm.municipio = geo.nombre_canonico(inm.municipio, inm.provincia) or inm.municipio
 
 
 def _reevalua(previo: dict, geo: Geocodificador) -> int:

@@ -37,8 +37,8 @@ class Servihabitat(Fuente):
         vistas: set[str] = set()
         fichas: set[str] = set()
 
-        # Descubrimiento en dos niveles: comarcas y, dentro de ellas, municipios.
-        for nivel in range(2):
+        # Descubrimiento por niveles: provincia -> comarcas -> municipios.
+        for nivel in range(3):
             nuevas: list[str] = []
             for zona in zonas:
                 if zona in vistas:

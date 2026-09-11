@@ -1,12 +1,15 @@
 """Portal de Subastas del BOE (subastas.boe.es).
 
-Es la fuente oficial de las subastas públicas españolas y agrupa cinco orígenes:
+Fuente oficial de las subastas públicas españolas. Agrupa cinco orígenes:
 judicial, notarial, Agencia Tributaria, otras administraciones tributarias y
-subastas administrativas generales (donde se publican, entre otras, las de la
-Tesorería General de la Seguridad Social).
+subastas administrativas generales (entre ellas las de la Tesorería General de
+la Seguridad Social).
 
 El portal no ofrece API: se replica el formulario de búsqueda avanzada
-(subastas_ava.php) tal y como lo enviaría un navegador y se leen las fichas.
+(subastas_ava.php) tal y como lo enviaría un navegador. De cada subasta se lee
+la pestaña «Bienes», que es la que trae los datos estructurados del inmueble
+(tipo, dirección, localidad, referencia catastral), y se emite un registro por
+bien, porque una misma subasta puede sacar varias fincas a la vez.
 """
 from __future__ import annotations
 
@@ -21,10 +24,18 @@ from .base import Fuente
 
 BASE = "https://subastas.boe.es/"
 BUSQUEDA = BASE + "subastas_ava.php"
+FOTO_CATASTRO = ("https://ovc.catastro.meh.es/OVCServWeb/OVCWcfLibres/OVCFotoFachada.svc/"
+                 "RecuperarFotoFachadaGet?ReferenciaCatastral=")
 
-# Estados que interesan: en curso y próximas a abrirse.
 ESTADOS = {"EJ": "Celebrándose", "PU": "Próxima apertura"}
 PROVINCIA_BARCELONA = "08"
+
+# Subtipos del portal que pueden contener una casa. El resto (garaje, trastero,
+# local, nave, solar) se descarta en origen para no gastar peticiones.
+SUBTIPOS_VIVIENDA = {"vivienda"}
+SUBTIPOS_POSIBLES = {"finca rustica", "otros", "otro", ""}
+
+RE_BIEN = re.compile(r"^(?:bien|lote)\s+(\d+)\s*[-–]\s*([^(]+?)\s*(?:\(([^)]*)\))?$", re.I)
 
 
 def _fuente_desde_tipo(tipo: str, organismo: str) -> str:
@@ -50,6 +61,7 @@ class SubastasBOE(Fuente):
     def __init__(self, *a, provincia: str = PROVINCIA_BARCELONA, **kw):
         super().__init__(*a, **kw)
         self.provincia = provincia
+        self.url_estable: bool | None = None   # se comprueba con la primera ficha
 
     # ------------------------------------------------------------------ API
     def recoge(self):
@@ -60,13 +72,10 @@ class SubastasBOE(Fuente):
         vistos: set[str] = set()
         for estado in ESTADOS:
             for enlace, resumen in self._resultados(plantilla, estado):
-                id_sub = resumen["referencia"]
-                if id_sub in vistos:
+                if resumen["referencia"] in vistos:
                     continue
-                vistos.add(id_sub)
-                inm = self._ficha(enlace, resumen)
-                if inm:
-                    yield inm
+                vistos.add(resumen["referencia"])
+                yield from self._inmuebles(enlace, resumen)
 
     # ------------------------------------------------------- búsqueda/listado
     def _plantilla_formulario(self) -> dict | None:
@@ -112,12 +121,11 @@ class SubastasBOE(Fuente):
                 a = li.find("a", href=re.compile("detalleSubasta"))
                 if not a:
                     continue
-                h3 = li.find("h3")
-                h4 = li.find("h4")
+                h3, h4 = li.find("h3"), li.find("h4")
                 parrafos = [p.get_text(" ", strip=True) for p in li.find_all("p")]
-                ref = (h3.get_text(strip=True).replace("SUBASTA", "").strip() if h3 else "")
                 yield urljoin(BASE, a["href"]), {
-                    "referencia": ref,
+                    "referencia": (h3.get_text(strip=True).replace("SUBASTA", "").strip()
+                                   if h3 else ""),
                     "organismo": h4.get_text(" ", strip=True) if h4 else "",
                     "estado_txt": next((p for p in parrafos if p.startswith("Estado")), ""),
                     "descripcion": " ".join(p for p in parrafos if not p.startswith("Estado")),
@@ -130,71 +138,121 @@ class SubastasBOE(Fuente):
     @staticmethod
     def _siguiente(soup: BeautifulSoup) -> str | None:
         for a in soup.find_all("a", href=True):
-            txt = parse.normaliza(a.get_text(" ", strip=True))
+            texto = parse.normaliza(a.get_text(" ", strip=True))
             titulo = parse.normaliza(a.get("title") or "")
-            if "siguiente" in txt or "siguiente" in titulo:
+            if "siguiente" in texto or "siguiente" in titulo:
                 return a["href"]
         return None
 
-    # ------------------------------------------------------------- ficha
-    def _ficha(self, enlace: str, resumen: dict) -> Inmueble | None:
-        r = self.cliente.get(enlace)
-        if not r or r.status_code != 200:
-            return None
-        soup = BeautifulSoup(r.text, "lxml")
-        general = self._tabla(soup)
+    # ------------------------------------------------------------- fichas
+    def _inmuebles(self, enlace_busqueda: str, resumen: dict):
+        ref = resumen["referencia"]
+        # URL estable (sin el testigo de búsqueda), que es la que verá el usuario.
+        estable = f"{BASE}detalleSubasta.php?idSub={ref}" if ref else enlace_busqueda
 
-        bienes = {}
-        url_bienes = self._pestana(soup, "bienes")
-        if url_bienes:
-            rb = self.cliente.get(urljoin(BASE, url_bienes))
-            if rb and rb.status_code == 200:
-                sb = BeautifulSoup(rb.text, "lxml")
-                bienes = self._tabla(sb)
-                imagen = self._imagen(sb)
-            else:
-                imagen = None
-        else:
-            imagen = None
+        if self.url_estable is False:
+            estable = enlace_busqueda
+        r = self.cliente.get(estable)
+        valida = bool(r and r.status_code == 200 and "Datos de la subasta" in r.text)
+        if self.url_estable is None and estable != enlace_busqueda:
+            self.url_estable = valida
+            if not valida:
+                self.log.warning("El BOE no acepta la URL sin testigo de búsqueda; "
+                                 "se usarán los enlaces del listado")
+        if not valida:
+            estable = enlace_busqueda
+            r = self.cliente.get(enlace_busqueda)
+            if not r or r.status_code != 200:
+                return
+        general = self._tabla(BeautifulSoup(r.text, "lxml"))
 
-        descripcion = " ".join(filter(None, [
-            bienes.get("Descripción", ""), bienes.get("Dirección", ""),
-            resumen.get("descripcion", ""),
-        ]))
+        url_bienes = (f"{estable}&ver=3" if "idSub=" in estable and "ver=" not in estable
+                      else self._pestana(BeautifulSoup(r.text, "lxml"), "bienes"))
+        rb = self.cliente.get(urljoin(BASE, url_bienes)) if url_bienes else None
+        bienes = self._bienes(BeautifulSoup(rb.text, "lxml")) if rb and rb.status_code == 200 else []
+        if not bienes:
+            self.log.debug("Subasta %s sin datos de bienes legibles", ref)
+            return
+
         tipo_subasta = general.get("Tipo de subasta", "")
-        municipio = (bienes.get("Localidad") or
-                     parse.extrae_municipio(bienes.get("Dirección", "")) or
-                     parse.extrae_municipio(resumen.get("descripcion", "")))
+        fuente = _fuente_desde_tipo(tipo_subasta, resumen.get("organismo", ""))
 
-        inm = Inmueble(
-            fuente=_fuente_desde_tipo(tipo_subasta, resumen.get("organismo", "")),
-            url=enlace,
-            referencia=resumen["referencia"] or general.get("Identificador", ""),
-            titulo=self._titulo(bienes, resumen),
-            municipio=municipio,
-            provincia=bienes.get("Provincia") or "Barcelona",
-            direccion=bienes.get("Dirección"),
-            tipo=parse.clasifica_tipo(descripcion),
+        for bien in bienes:
+            inm = self._a_inmueble(bien, general, resumen, fuente, estable, len(bienes))
+            if inm:
+                yield inm
+
+    def _a_inmueble(self, bien: dict, general: dict, resumen: dict, fuente: str,
+                    url: str, total_bienes: int) -> Inmueble | None:
+        campos = bien["campos"]
+        subtipo = parse.normaliza(bien.get("subtipo"))
+        descripcion = " ".join(filter(None, [
+            campos.get("Descripción", ""),
+            campos.get("Información adicional", ""),
+            campos.get("Dirección", ""),
+        ])) or resumen.get("descripcion", "")
+        tipo = parse.clasifica_tipo(descripcion)
+
+        if subtipo and subtipo not in SUBTIPOS_VIVIENDA:
+            if subtipo not in SUBTIPOS_POSIBLES or tipo != "casa":
+                return None      # garaje, local, trastero, nave, solar sin casa…
+
+        catastro = campos.get("Referencia catastral", "").strip()
+        sufijo = f"-b{bien['orden']}" if total_bienes > 1 else ""
+        direccion = " ".join((campos.get("Dirección") or "").split())
+
+        return Inmueble(
+            fuente=fuente,
+            url=f"{url}&ver=3" if "ver=" not in url else url,
+            referencia=f"{resumen['referencia']}{sufijo}",
+            titulo=(campos.get("Descripción") or direccion or
+                    resumen.get("descripcion", "Subasta BOE"))[:180],
+            municipio=(campos.get("Localidad") or
+                       parse.extrae_municipio(direccion) or None),
+            provincia=campos.get("Provincia") or "Barcelona",
+            direccion=", ".join(filter(None, [direccion, campos.get("Código Postal")])) or None,
+            tipo=tipo,
             superficie_m2=parse.extrae_superficie(descripcion),
             terreno_m2=parse.extrae_terreno(descripcion),
             dormitorios=parse.extrae_dormitorios(descripcion),
-            precio=parse.a_numero(general.get("Valor subasta")) or
-                   parse.a_numero(general.get("Puja mínima")),
+            precio=(parse.a_numero(general.get("Valor subasta")) or
+                    parse.a_numero(general.get("Puja mínima"))),
             valor_tasacion=parse.a_numero(general.get("Tasación")),
             deposito=parse.a_numero(general.get("Importe del depósito")),
             estado=resumen.get("estado_txt", "").replace("Estado:", "").strip() or None,
             fecha_fin=self._fecha(general.get("Fecha de conclusión", "")),
             organismo=resumen.get("organismo") or None,
-            imagen=imagen,
+            imagen=self._foto_catastro(catastro),
             descripcion=descripcion.strip(),
         )
-        return inm
 
     # ----------------------------------------------------------- utilidades
+    def _bienes(self, soup: BeautifulSoup) -> list[dict]:
+        """Un diccionario por bien subastado, con su subtipo y su tabla de datos."""
+        bienes: list[dict] = []
+        for cabecera in soup.find_all(re.compile(r"^h[2-6]$")):
+            m = RE_BIEN.match(cabecera.get_text(" ", strip=True))
+            if not m:
+                continue
+            tabla = cabecera.find_next("table")
+            if tabla is None:
+                continue
+            bienes.append({
+                "orden": int(m.group(1)),
+                "clase": m.group(2).strip(),
+                "subtipo": (m.group(3) or "").strip(),
+                "campos": self._tabla(tabla),
+            })
+        if not bienes:
+            campos = self._tabla(soup)
+            if campos.get("Descripción"):
+                bienes.append({"orden": 1, "clase": "Inmueble", "subtipo": "", "campos": campos})
+        return bienes
+
     @staticmethod
-    def _tabla(soup: BeautifulSoup) -> dict[str, str]:
+    def _tabla(nodo) -> dict[str, str]:
         datos: dict[str, str] = {}
-        for tr in soup.find_all("tr"):
+        for tr in nodo.find_all("tr"):
             th, td = tr.find("th"), tr.find("td")
             if th and td:
                 clave = th.get_text(" ", strip=True)
@@ -210,12 +268,19 @@ class SubastasBOE(Fuente):
                 return a["href"]
         return None
 
-    @staticmethod
-    def _imagen(soup: BeautifulSoup) -> str | None:
-        for img in soup.find_all("img", src=True):
-            src = img["src"]
-            if re.search(r"(fotos?|imagenes/bienes|adjunto)", src, re.I) and "logo" not in src.lower():
-                return urljoin(BASE, src)
+    def _foto_catastro(self, referencia: str) -> str | None:
+        """Foto de fachada del Catastro, sólo si ese inmueble tiene una publicada.
+
+        El servicio responde 200 con cuerpo vacío cuando no hay foto (solares,
+        fincas rústicas), así que se comprueba antes de guardar el enlace.
+        """
+        if not referencia or len(referencia) < 14:
+            return None
+        url = FOTO_CATASTRO + referencia
+        r = self.cliente.get(url)
+        if (r and r.status_code == 200 and len(r.content) > 1024
+                and "image" in (r.headers.get("content-type") or "")):
+            return url
         return None
 
     @staticmethod
@@ -226,14 +291,7 @@ class SubastasBOE(Fuente):
         m = re.search(r"(\d{2}-\d{2}-\d{4})", texto)
         return m.group(1) if m else None
 
-    @staticmethod
-    def _titulo(bienes: dict, resumen: dict) -> str:
-        for clave in ("Descripción", "Dirección"):
-            if bienes.get(clave):
-                return bienes[clave][:160]
-        return (resumen.get("descripcion") or "Subasta BOE")[:160]
-
 
 def FuentesBOE(**kw):
-    """El portal es único; se devuelve como una sola fuente que ya etiqueta origen."""
+    """El portal es único; se devuelve como una sola fuente que ya etiqueta el origen."""
     return [SubastasBOE(**kw)]

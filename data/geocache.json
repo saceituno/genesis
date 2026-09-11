@@ -1,0 +1,316 @@
+{
+ "badia del vallès|barcelona": {
+  "lat": 41.5075702,
+  "lon": 2.1153773,
+  "nombre": "Badia del Vallès"
+ },
+ "barcelona|barcelona": {
+  "lat": 41.3825802,
+  "lon": 2.177073,
+  "nombre": "Barcelona"
+ },
+ "bcn-nou barris|barcelona": null,
+ "begues (1)|barcelona": {
+  "lat": 41.3197002,
+  "lon": 1.9266001,
+  "nombre": "Begues"
+ },
+ "begues|barcelona": {
+  "lat": 41.3328119,
+  "lon": 1.925468,
+  "nombre": "Begues"
+ },
+ "berga (1)|barcelona": {
+  "lat": 41.4003235,
+  "lon": 2.1533087,
+  "nombre": "Barcelona"
+ },
+ "berga|barcelona": {
+  "lat": 42.1011456,
+  "lon": 1.8454758,
+  "nombre": "Berga"
+ },
+ "bigues (1)|barcelona": {
+  "lat": 41.6790719,
+  "lon": 2.2084754,
+  "nombre": "Bigues"
+ },
+ "cabrera d'anoia (1)|barcelona": null,
+ "cabrera d'anoia|barcelona": {
+  "lat": 41.4773537,
+  "lon": 1.7041083,
+  "nombre": "Cabrera d'Anoia"
+ },
+ "cabrils (1)|barcelona": {
+  "lat": 41.5262354,
+  "lon": 2.3676258,
+  "nombre": "Cabrils"
+ },
+ "cabrils|barcelona": {
+  "lat": 41.5262354,
+  "lon": 2.3676258,
+  "nombre": "Cabrils"
+ },
+ "calaf (1)|barcelona": {
+  "lat": 41.3980975,
+  "lon": 2.1452043,
+  "nombre": "Barcelona"
+ },
+ "calaf|barcelona": {
+  "lat": 41.7323852,
+  "lon": 1.5150275,
+  "nombre": "Calaf"
+ },
+ "caldes de montbui (1)|barcelona": {
+  "lat": 41.6344802,
+  "lon": 2.1626124,
+  "nombre": "Caldes de Montbui"
+ },
+ "caldes de montbui|barcelona": {
+  "lat": 41.6344802,
+  "lon": 2.1626124,
+  "nombre": "Caldes de Montbui"
+ },
+ "canyelles (1)|barcelona": {
+  "lat": 41.3967354,
+  "lon": 2.1210844,
+  "nombre": "Barcelona"
+ },
+ "canyelles|barcelona": {
+  "lat": 41.2858273,
+  "lon": 1.7222743,
+  "nombre": "Canyelles"
+ },
+ "cardedeu (1)|barcelona": null,
+ "cardedeu|barcelona": {
+  "lat": 41.6385167,
+  "lon": 2.3558408,
+  "nombre": "Cardedeu"
+ },
+ "castellar del valles (1)|barcelona": {
+  "lat": 41.6138122,
+  "lon": 2.0875963,
+  "nombre": "Castellar del Vallès"
+ },
+ "castellar del valles|barcelona": {
+  "lat": 41.6138122,
+  "lon": 2.0875963,
+  "nombre": "Castellar del Vallès"
+ },
+ "castellbell i el vilar (1)|barcelona": {
+  "lat": 41.6362716,
+  "lon": 1.8534965,
+  "nombre": "Castellbell i el Vilar"
+ },
+ "castellbell i el vilar|barcelona": {
+  "lat": 41.6362716,
+  "lon": 1.8534965,
+  "nombre": "Castellbell i el Vilar"
+ },
+ "castellgali (1)|barcelona": {
+  "lat": 41.6732765,
+  "lon": 1.8378043,
+  "nombre": "Castellgalí"
+ },
+ "collbato (1)|barcelona": null,
+ "collbato|barcelona": {
+  "lat": 41.570256,
+  "lon": 1.8285814,
+  "nombre": "Collbató"
+ },
+ "cubelles (2)|barcelona": {
+  "lat": 41.4261579,
+  "lon": 2.175243,
+  "nombre": "Barcelona"
+ },
+ "cubelles|barcelona": {
+  "lat": 41.2083363,
+  "lon": 1.6730541,
+  "nombre": "Cubelles"
+ },
+ "dosrius (1)|barcelona": {
+  "lat": 41.4401322,
+  "lon": 2.1479603,
+  "nombre": "Barcelona"
+ },
+ "dosrius|barcelona": {
+  "lat": 41.594347,
+  "lon": 2.4063166,
+  "nombre": "Dosrius"
+ },
+ "folgueroles|barcelona": {
+  "lat": 41.9392868,
+  "lon": 2.3180742,
+  "nombre": "Folgueroles"
+ },
+ "martorelles (1)|barcelona": {
+  "lat": 41.52851,
+  "lon": 2.2374755,
+  "nombre": "Martorelles"
+ },
+ "martorelles|barcelona": {
+  "lat": 41.52851,
+  "lon": 2.2374755,
+  "nombre": "Martorelles"
+ },
+ "mataró|barcelona": {
+  "lat": 41.5399994,
+  "lon": 2.4448577,
+  "nombre": "Mataró"
+ },
+ "mediona (2)|barcelona": {
+  "lat": 41.4773943,
+  "lon": 1.6350185,
+  "nombre": "Mediona"
+ },
+ "montesquiu (1)|barcelona": {
+  "lat": 42.108728,
+  "lon": 2.2086111,
+  "nombre": "Montesquiu"
+ },
+ "olivella (1)|barcelona": {
+  "lat": 41.2210756,
+  "lon": 1.7197078,
+  "nombre": "Vilanova i la Geltrú"
+ },
+ "palafolls|barcelona": {
+  "lat": 41.6673913,
+  "lon": 2.7499262,
+  "nombre": "Palafolls"
+ },
+ "piera (2)|barcelona": {
+  "lat": 41.3771638,
+  "lon": 2.1169591,
+  "nombre": "Barcelona"
+ },
+ "piera|barcelona": {
+  "lat": 41.5216923,
+  "lon": 1.7526335,
+  "nombre": "Piera"
+ },
+ "pobla de lillet, la (1)|barcelona": null,
+ "pobla de lillet, la|barcelona": null,
+ "pontons (2)|barcelona": {
+  "lat": 41.4267899,
+  "lon": 2.1729732,
+  "nombre": "Barcelona"
+ },
+ "pontons|barcelona": {
+  "lat": 41.4155898,
+  "lon": 1.516296,
+  "nombre": "Pontons"
+ },
+ "puigdalber (1)|barcelona": {
+  "lat": 41.3561375,
+  "lon": 1.7009135,
+  "nombre": "Vilafranca del Penedès"
+ },
+ "puigdalber|barcelona": {
+  "lat": 41.4045506,
+  "lon": 1.700349,
+  "nombre": "Puigdàlber"
+ },
+ "rubi (1)|barcelona": null,
+ "rubi|barcelona": {
+  "lat": 41.4936194,
+  "lon": 2.0319476,
+  "nombre": "Rubí"
+ },
+ "sabadell (1)|barcelona": null,
+ "sabadell|barcelona": {
+  "lat": 41.5460801,
+  "lon": 2.1083214,
+  "nombre": "Sabadell"
+ },
+ "sant celoni (1)|barcelona": {
+  "lat": 41.6895041,
+  "lon": 2.4914526,
+  "nombre": "Sant Celoni"
+ },
+ "sant cugat del valles (1)|barcelona": null,
+ "sant cugat del valles|barcelona": {
+  "lat": 41.4707933,
+  "lon": 2.0848815,
+  "nombre": "Sant Cugat del Vallès"
+ },
+ "sant fost de campsentelles (1)|barcelona": {
+  "lat": 41.518752,
+  "lon": 2.2328323,
+  "nombre": "Sant Fost de Campsentelles"
+ },
+ "sant fost de campsentelles|barcelona": {
+  "lat": 41.518752,
+  "lon": 2.2328323,
+  "nombre": "Sant Fost de Campsentelles"
+ },
+ "sant pere de vilamajor|barcelona": {
+  "lat": 41.6843288,
+  "lon": 2.3900497,
+  "nombre": "Sant Pere de Vilamajor"
+ },
+ "sant pol de mar (1)|barcelona": null,
+ "sant pol de mar|barcelona": {
+  "lat": 41.6030132,
+  "lon": 2.6238092,
+  "nombre": "Sant Pol de Mar"
+ },
+ "sant quirze safaja (1)|barcelona": {
+  "lat": 41.7271551,
+  "lon": 2.1530012,
+  "nombre": "Sant Quirze Safaja"
+ },
+ "sant quirze safaja|barcelona": {
+  "lat": 41.7271551,
+  "lon": 2.1530012,
+  "nombre": "Sant Quirze Safaja"
+ },
+ "sant vicenç de castellet (1)|barcelona": {
+  "lat": 41.6669999,
+  "lon": 1.8625559,
+  "nombre": "Sant Vicenç de Castellet"
+ },
+ "santa coloma de gramenet (1)|barcelona": {
+  "lat": 41.4519395,
+  "lon": 2.2080809,
+  "nombre": "Santa Coloma de Gramenet"
+ },
+ "santa coloma de gramenet|barcelona": {
+  "lat": 41.4519395,
+  "lon": 2.2080809,
+  "nombre": "Santa Coloma de Gramenet"
+ },
+ "sitges|barcelona": {
+  "lat": 41.2353596,
+  "lon": 1.8114102,
+  "nombre": "Sitges"
+ },
+ "terrassa (1)|barcelona": null,
+ "tordera (5)|barcelona": {
+  "lat": 41.4660375,
+  "lon": 2.2385669,
+  "nombre": "Badalona"
+ },
+ "tordera|barcelona": {
+  "lat": 41.7013581,
+  "lon": 2.7182911,
+  "nombre": "Tordera"
+ },
+ "trencarroques (castellet i la gornal) (1)|barcelona": {
+  "lat": 41.2362836,
+  "lon": 1.6329643,
+  "nombre": "Castellet i la Gornal"
+ },
+ "vallgorguina (1)|barcelona": {
+  "lat": 41.6473229,
+  "lon": 2.5100384,
+  "nombre": "Vallgorguina"
+ },
+ "ventayol, el (1)|barcelona": null,
+ "ventayol, el|barcelona": null,
+ "vilanova i la geltru (3)|barcelona": null,
+ "vilanova i la geltru|barcelona": {
+  "lat": 41.2241992,
+  "lon": 1.7256327,
+  "nombre": "Vilanova i la Geltrú"
+ }
+}

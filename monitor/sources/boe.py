@@ -219,7 +219,7 @@ class SubastasBOE(Fuente):
                     parse.a_numero(general.get("Puja mínima"))),
             valor_tasacion=parse.a_numero(general.get("Tasación")),
             deposito=parse.a_numero(general.get("Importe del depósito")),
-            estado=resumen.get("estado_txt", "").replace("Estado:", "").strip() or None,
+            estado=self._estado(resumen.get("estado_txt", "")),
             fecha_fin=self._fecha(general.get("Fecha de conclusión", "")),
             organismo=resumen.get("organismo") or None,
             imagen=self._foto_catastro(catastro),
@@ -282,6 +282,12 @@ class SubastasBOE(Fuente):
                 and "image" in (r.headers.get("content-type") or "")):
             return url
         return None
+
+    @staticmethod
+    def _estado(texto: str) -> str | None:
+        """'Estado: Celebrándose - [Conclusión prevista: …]' -> 'Celebrándose'."""
+        limpio = texto.replace("Estado:", "").split(" - [")[0].strip()
+        return limpio or None
 
     @staticmethod
     def _fecha(texto: str) -> str | None:

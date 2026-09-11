@@ -55,6 +55,8 @@ def principal(argv: list[str] | None = None) -> int:
     for f in fuentes:
         f.cliente = cliente
         f.limite_paginas = args.paginas
+        if hasattr(f, "geo"):
+            f.geo = geo        # permite descartar municipios lejanos antes de descargar
 
     encontrados: list[Inmueble] = []
     fuentes_ok: list[str] = []

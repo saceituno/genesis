@@ -18,6 +18,17 @@ from playwright.sync_api import sync_playwright
 
 RAIZ = Path(__file__).resolve().parent.parent
 PUERTO = 8765
+
+def _chromium() -> str | None:
+    """Chromium de Playwright, esté donde esté instalado."""
+    for patron in ("chromium*/chrome-linux/chrome", "chromium*/chrome-linux64/chrome"):
+        for ruta in sorted(Path("/opt/pw-browsers").glob(patron), reverse=True):
+            if ruta.is_file():
+                return str(ruta)
+    return None
+
+
+CHROMIUM = _chromium()
 fallos: list[str] = []
 
 
@@ -50,7 +61,7 @@ def main() -> int:
     salida.mkdir(parents=True, exist_ok=True)
 
     with sync_playwright() as p:
-        nav = p.chromium.launch(executable_path="/opt/pw-browsers/chromium/chrome-linux/chrome")
+        nav = p.chromium.launch(executable_path=CHROMIUM)
         pag = nav.new_page(viewport={"width": 1280, "height": 900})
         errores_js: list[str] = []
         pag.on("pageerror", lambda e: errores_js.append(str(e)))

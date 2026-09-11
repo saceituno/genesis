@@ -198,7 +198,8 @@
         ${fila("Detectado", d.first_seen ? new Date(d.first_seen).toLocaleDateString("es-ES") : "")}
       </table>
       ${d.descripcion ? `<div class="desc">${esc(d.descripcion)}</div>` : ""}
-      <a class="cta" href="${esc(d.url)}" target="_blank" rel="noopener">Ver ficha en ${esc(d.fuente)} ↗</a>`;
+      <a class="cta" href="${esc(d.url)}" target="_blank" rel="noopener">Ver ficha en ${esc(d.fuente)} ↗</a>
+      <a class="cta secundario" href="${esc(mapa(d))}" target="_blank" rel="noopener">Ver la zona en el mapa ↗</a>`;
     $("#btn-cerrar").addEventListener("click", cierraPanel);
     $("#panel").setAttribute("open", "");
     $("#overlay").setAttribute("open", "");
@@ -207,6 +208,11 @@
   function cierraPanel() {
     $("#panel").removeAttribute("open");
     $("#overlay").removeAttribute("open");
+  }
+
+  function mapa(d) {
+    const consulta = [d.direccion, d.municipio, d.provincia, "España"].filter(Boolean).join(", ");
+    return "https://www.openstreetmap.org/search?query=" + encodeURIComponent(consulta);
   }
 
   function esc(s) {

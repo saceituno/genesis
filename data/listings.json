@@ -1,5 +1,5 @@
 {
- "generado": "2026-09-11T16:44:20Z",
+ "generado": "2026-09-11T16:55:39Z",
  "criterios": {
   "tipo_vivienda": "casa",
   "dormitorios_min": 2,
@@ -51,9 +51,44 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "4ee6b4cb1498d05c"
+  },
+  {
+   "fuente": "Servihabitat",
+   "url": "https://www.servihabitat.com/es/venta/vivienda-casa/barcelona-barcelones-bcnnoubarris/60459893",
+   "origen": "Servihabitat",
+   "referencia": "60459893",
+   "titulo": "Casa en venta en C. Llobera...,Bcn-Nou Barris,Barcelona",
+   "municipio": "Barcelona",
+   "provincia": "Barcelona",
+   "direccion": "C. Llobera..., 08042",
+   "lat": 41.4458153,
+   "lon": 2.1798006,
+   "distancia_km": 6.59,
+   "tipo": "casa",
+   "superficie_m2": 141.0,
+   "terreno_m2": null,
+   "dormitorios": null,
+   "banos": null,
+   "precio": 210000.0,
+   "valor_tasacion": null,
+   "deposito": null,
+   "estado": "En venta",
+   "fecha_fin": null,
+   "organismo": null,
+   "imagen": "https://imagenes.servihabitat.com/sdi/slir/w1024-h/current/images_5/imagen_503365.png",
+   "descripcion": "Oportunidad para inversores. Inmueble sin posesión sin posibilidad de visita ni financiación. Vivienda ubicada en Barcelona. Municipio que dispone de todos los servicios básicos a su alcance, con oferta comercial y educativa como Instituto Escuela Antaviana, variedad de servicios de restauración y zonas verdes valoradas en las que poder realizar actividades al aire libre. Vivienda para quienes quieran vivir en una zona tranquila y muy bien comunicada como para aquellos que busquen invertir para arrendamiento con una muy buena rentabilidad. Todo ello, además, con excelentes comunicaciones por transporte público y carreteras. Consulte la disponibilidad de los inmuebles y solicite información sin compromiso.",
+   "cumple": "parcial",
+   "faltan": [
+    "dormitorios",
+    "terreno"
+   ],
+   "first_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
+   "activo": true,
+   "id": "faa733f46db57895"
   },
   {
    "fuente": "Servihabitat",
@@ -85,7 +120,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "b5a344c66f2fda74"
   },
@@ -119,7 +154,7 @@
     "dormitorios"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "a50844a6d9358e15"
   },
@@ -156,7 +191,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "4011b82701202e31"
   },
@@ -191,7 +226,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "17edc5d84064166f"
   },
@@ -225,7 +260,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "ebc483afeee32e98"
   },
@@ -259,7 +294,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "c5764d5cc73db15d"
   },
@@ -296,7 +331,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "e92d5f613e3231d5"
   },
@@ -330,7 +365,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "fd41b27dd045833d"
   },
@@ -364,7 +399,7 @@
     "dormitorios"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "e2b384d8be21cde9"
   },
@@ -398,7 +433,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "1b7a89d8d5e47ca6"
   },
@@ -433,7 +468,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "9de282b708a388be"
   },
@@ -467,7 +502,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "a2c492fcedfbfcfd"
   },
@@ -504,7 +539,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "05e8a19571611449"
   },
@@ -539,7 +574,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "1189a5bf8a39e817"
   },
@@ -573,7 +608,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "09e420ee5c2291c3"
   },
@@ -609,7 +644,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "1c3a09cd5173e2c1"
   },
@@ -643,7 +678,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "582247e6c9f3f066"
   },
@@ -679,7 +714,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "e2baeb31f9418fd1"
   },
@@ -713,7 +748,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "4d7d6fdaaf7bd3ea"
   },
@@ -747,7 +782,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "a7688a4fb4bd20bf"
   },
@@ -782,7 +817,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "fdbf050e121dd864"
   },
@@ -814,7 +849,7 @@
    "cumple": "total",
    "faltan": [],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "460ab1fc2d32db96"
   },
@@ -849,7 +884,7 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "857babe0c88ae87f"
   },
@@ -883,45 +918,44 @@
     "terreno"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
    "id": "8f159b351349e109"
   },
   {
    "fuente": "Servihabitat",
-   "url": "https://www.servihabitat.com/es/venta/vivienda-casa/barcelona-barcelones-bcnnoubarris/60459893",
+   "url": "https://www.servihabitat.com/es/venta/vivienda-casa/barcelona-vallesoccidental-vetanyolel/60508593",
    "origen": "Servihabitat",
-   "referencia": "60459893",
-   "titulo": "Casa en venta en C. Llobera...,Bcn-Nou Barris,Barcelona",
-   "municipio": "Bcn-Nou Barris",
+   "referencia": "60508593",
+   "titulo": "Casa en venta en C. Ebro...,Ventayol, El,Barcelona",
+   "municipio": "El Ventayol",
    "provincia": "Barcelona",
-   "direccion": "C. Llobera..., 08042",
+   "direccion": "C. Ebro..., 08233",
    "lat": null,
    "lon": null,
    "distancia_km": null,
    "tipo": "casa",
-   "superficie_m2": 141.0,
+   "superficie_m2": 171.0,
    "terreno_m2": null,
-   "dormitorios": null,
-   "banos": null,
-   "precio": 210000.0,
+   "dormitorios": 6,
+   "banos": 2,
+   "precio": 166600.0,
    "valor_tasacion": null,
    "deposito": null,
    "estado": "En venta",
    "fecha_fin": null,
    "organismo": null,
-   "imagen": "https://imagenes.servihabitat.com/sdi/slir/w1024-h/current/images_5/imagen_503365.png",
-   "descripcion": "Oportunidad para inversores. Inmueble sin posesión sin posibilidad de visita ni financiación. Vivienda ubicada en Barcelona. Municipio que dispone de todos los servicios básicos a su alcance, con oferta comercial y educativa como Instituto Escuela Antaviana, variedad de servicios de restauración y zonas verdes valoradas en las que poder realizar actividades al aire libre. Vivienda para quienes quieran vivir en una zona tranquila y muy bien comunicada como para aquellos que busquen invertir para arrendamiento con una muy buena rentabilidad. Todo ello, además, con excelentes comunicaciones por transporte público y carreteras. Consulte la disponibilidad de los inmuebles y solicite información sin compromiso.",
+   "imagen": "https://imagenes.servihabitat.com/sdi/slir/w1024-h/current/images_8/imagen_503298.png",
+   "descripcion": "Oportunidad para inversores. Inmueble sin posesión sin posibilidad de visita ni financiación. Casa unifamiliar de 3 plantas con 6 habitaciones, 2 baños, terraza y garaje que dispone también de jardín y piscina privada. Ubicada en la urbanización El Ventanyol, una zona residencial y tranquila.",
    "cumple": "parcial",
    "faltan": [
-    "dormitorios",
     "terreno",
     "ubicacion"
    ],
    "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
+   "last_seen": "2026-09-11T16:55:39Z",
    "activo": true,
-   "id": "faa733f46db57895"
+   "id": "b2beebc6a4915878"
   },
   {
    "fuente": "Servihabitat",
@@ -956,43 +990,9 @@
    ],
    "first_seen": "2026-09-11T16:44:20Z",
    "last_seen": "2026-09-11T16:44:20Z",
-   "activo": true,
-   "id": "e5a7e4a578c2c152"
-  },
-  {
-   "fuente": "Servihabitat",
-   "url": "https://www.servihabitat.com/es/venta/vivienda-casa/barcelona-vallesoccidental-vetanyolel/60508593",
-   "origen": "Servihabitat",
-   "referencia": "60508593",
-   "titulo": "Casa en venta en C. Ebro...,Ventayol, El,Barcelona",
-   "municipio": "Ventayol, El",
-   "provincia": "Barcelona",
-   "direccion": "C. Ebro..., 08233",
-   "lat": null,
-   "lon": null,
-   "distancia_km": null,
-   "tipo": "casa",
-   "superficie_m2": 171.0,
-   "terreno_m2": null,
-   "dormitorios": 6,
-   "banos": 2,
-   "precio": 166600.0,
-   "valor_tasacion": null,
-   "deposito": null,
-   "estado": "En venta",
-   "fecha_fin": null,
-   "organismo": null,
-   "imagen": "https://imagenes.servihabitat.com/sdi/slir/w1024-h/current/images_8/imagen_503298.png",
-   "descripcion": "Oportunidad para inversores. Inmueble sin posesión sin posibilidad de visita ni financiación. Casa unifamiliar de 3 plantas con 6 habitaciones, 2 baños, terraza y garaje que dispone también de jardín y piscina privada. Ubicada en la urbanización El Ventanyol, una zona residencial y tranquila.",
-   "cumple": "parcial",
-   "faltan": [
-    "terreno",
-    "ubicacion"
-   ],
-   "first_seen": "2026-09-11T16:44:20Z",
-   "last_seen": "2026-09-11T16:44:20Z",
-   "activo": true,
-   "id": "b2beebc6a4915878"
+   "activo": false,
+   "id": "e5a7e4a578c2c152",
+   "baja_detectada": "2026-09-11T16:55:39Z"
   }
  ],
  "resumen_fuentes": {
@@ -1002,7 +1002,7 @@
   },
   "Servihabitat": {
    "revisados": 40,
-   "aceptados": 22
+   "aceptados": 21
   }
  }
 }

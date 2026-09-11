@@ -138,10 +138,16 @@
   "lon": 2.4063166,
   "nombre": "Dosrius"
  },
+ "el ventayol|barcelona": null,
  "folgueroles|barcelona": {
   "lat": 41.9392868,
   "lon": 2.3180742,
   "nombre": "Folgueroles"
+ },
+ "la pobla de lillet|barcelona": {
+  "lat": 42.2437379,
+  "lon": 1.9749329,
+  "nombre": "la Pobla de Lillet"
  },
  "martorelles (1)|barcelona": {
   "lat": 41.52851,
@@ -167,6 +173,11 @@
   "lat": 42.108728,
   "lon": 2.2086111,
   "nombre": "Montesquiu"
+ },
+ "nou barris|barcelona": {
+  "lat": 41.4458153,
+  "lon": 2.1798006,
+  "nombre": "Barcelona"
  },
  "olivella (1)|barcelona": {
   "lat": 41.2210756,

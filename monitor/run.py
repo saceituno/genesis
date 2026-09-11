@@ -98,7 +98,7 @@ def principal(argv: list[str] | None = None) -> int:
 
 
 def _ubica(inm: Inmueble, geo: Geocodificador) -> None:
-    inm.municipio = parse.titulo_lugar(inm.municipio)
+    inm.municipio = parse.titulo_lugar(parse.normaliza_municipio(inm.municipio))
     coords = geo.coords(inm.municipio, inm.provincia)
     if coords:
         inm.lat, inm.lon = coords

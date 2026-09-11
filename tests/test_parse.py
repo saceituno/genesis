@@ -100,3 +100,13 @@ def test_unifamiliares_siguen_reconociendose():
     ]
     for texto in casos:
         assert parse.clasifica_tipo(texto) == "casa", texto
+
+
+def test_normaliza_municipio_para_geolocalizar():
+    # Artículo pospuesto: sin corregirlo el municipio no se encuentra y el
+    # inmueble se cuela sin distancia aunque esté lejísimos.
+    assert parse.normaliza_municipio("Pobla De Lillet, La") == "La Pobla De Lillet"
+    assert parse.normaliza_municipio("Ventayol, El") == "El Ventayol"
+    assert parse.normaliza_municipio("Bcn-Nou Barris") == "Nou Barris"
+    assert parse.normaliza_municipio("Sabadell") == "Sabadell"
+    assert parse.normaliza_municipio(None) is None

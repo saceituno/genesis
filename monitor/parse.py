@@ -11,7 +11,7 @@ import unicodedata
 __all__ = [
     "normaliza", "a_numero", "numero_en_letras", "extrae_superficie", "extrae_terreno",
     "extrae_dormitorios", "clasifica_tipo", "extrae_precio", "extrae_municipio",
-    "titulo_lugar",
+    "titulo_lugar", "normaliza_municipio",
 ]
 
 # --- utilidades -------------------------------------------------------------
@@ -253,6 +253,29 @@ def extrae_precio(texto: str) -> float | None:
 # --- municipio --------------------------------------------------------------
 
 _MINUSCULAS = {"de", "del", "la", "las", "los", "el", "i", "y", "d'", "de la", "dels"}
+
+
+_RE_ARTICULO_POSPUESTO = re.compile(r"^(.*?),\s*(el|la|els|les|los|las|l')$", re.I)
+
+
+def normaliza_municipio(nombre: str | None) -> str | None:
+    """Deja el municipio en la forma que entiende un geocodificador.
+
+    Los portales escriben el artículo detrás ('Pobla De Lillet, La') y abrevian
+    Barcelona en los distritos ('Bcn-Nou Barris'). Sin corregirlo, Nominatim no
+    encuentra el municipio, el inmueble se queda sin distancia y acaba colándose
+    en el listado aunque esté a cien kilómetros.
+    """
+    if not nombre:
+        return None
+    nombre = " ".join(str(nombre).split()).strip(" ,")
+    m = _RE_ARTICULO_POSPUESTO.match(nombre)
+    if m:
+        articulo = m.group(2).lower()
+        union = "" if articulo.endswith("'") else " "
+        nombre = f"{articulo.capitalize()}{union}{m.group(1)}"
+    nombre = re.sub(r"^bcn\s*[-–]\s*", "", nombre, flags=re.I)   # distritos de Barcelona
+    return nombre or None
 
 
 def titulo_lugar(nombre: str | None) -> str | None:

@@ -13,8 +13,9 @@ def ahora() -> str:
 @dataclass
 class Inmueble:
     # --- identidad
-    fuente: str                      # plataforma (Servihabitat, BOE-Seguridad Social, ...)
+    fuente: str                      # plataforma visible (Servihabitat, BOE · Judicial, ...)
     url: str                         # enlace directo a la ficha
+    origen: str = ""                 # módulo que lo recogió (BOE, Servihabitat): controla las bajas
     referencia: str = ""             # id/expediente en origen
     titulo: str = ""
 

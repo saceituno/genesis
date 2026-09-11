@@ -133,8 +133,7 @@ class Servihabitat(Fuente):
             provincia=direccion.get("addressRegion"),
             direccion=", ".join(filter(None, [direccion.get("streetAddress"),
                                               direccion.get("postalCode")])) or None,
-            tipo=parse.clasifica_tipo(
-                f"{prop.get('accommodationCategory','')} {prop.get('name','')} {descripcion}"),
+            tipo=self._tipo(prop, descripcion),
             superficie_m2=superficie,
             terreno_m2=terreno,
             dormitorios=self._entero(prop.get("numberOfBedrooms")),
@@ -144,6 +143,17 @@ class Servihabitat(Fuente):
             imagen=self._imagen(soup, prop),
             descripcion=descripcion.strip(),
         )
+
+    @staticmethod
+    def _tipo(prop: dict, descripcion: str) -> str:
+        """El portal declara la tipología de cada ficha; es más fiable que el texto."""
+        categoria = parse.normaliza(prop.get("accommodationCategory"))
+        if any(p in categoria for p in ("casa", "chalet", "unifamiliar", "adosad",
+                                        "paread", "masia", "torre", "villa")):
+            return "casa"
+        if categoria in ("piso", "apartamento", "atico", "duplex", "estudio"):
+            return "no_casa"
+        return parse.clasifica_tipo(f"{prop.get('name','')} {descripcion}")
 
     @staticmethod
     def _entero(valor) -> int | None:

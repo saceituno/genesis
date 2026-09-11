@@ -27,8 +27,14 @@ def carga(ruta: Path = RUTA) -> dict:
     return {"generado": None, "criterios": {}, "fuentes": [], "inmuebles": []}
 
 
-def fusiona(previo: dict, nuevos: list[Inmueble], fuentes_ok: list[str]) -> tuple[dict, dict]:
-    """Devuelve (estado_nuevo, resumen_de_cambios)."""
+def fusiona(previo: dict, nuevos: list[Inmueble], origenes_ok: list[str]) -> tuple[dict, dict]:
+    """Devuelve (estado_nuevo, resumen_de_cambios).
+
+    `origenes_ok` son las fuentes que respondieron en esta pasada. Se usa el
+    módulo de origen y no la etiqueta visible: si el BOE devuelve subastas
+    judiciales pero ninguna de la AEAT, las fichas de la AEAT que ya no están en
+    el portal deben darse de baja igualmente.
+    """
     ts = ahora()
     indice = {i["id"]: i for i in previo.get("inmuebles", [])}
     vistos: set[str] = set()
@@ -62,7 +68,7 @@ def fusiona(previo: dict, nuevos: list[Inmueble], fuentes_ok: list[str]) -> tupl
     for id_, d in indice.items():
         if id_ in vistos:
             continue
-        if d.get("fuente") in fuentes_ok and d.get("activo", True):
+        if d.get("origen", d.get("fuente")) in origenes_ok and d.get("activo", True):
             d["activo"] = False
             d["baja_detectada"] = ts
             bajas += 1
@@ -74,7 +80,8 @@ def fusiona(previo: dict, nuevos: list[Inmueble], fuentes_ok: list[str]) -> tupl
     estado = {
         "generado": ts,
         "criterios": previo.get("criterios", {}),
-        "fuentes": fuentes_ok,
+        "fuentes": sorted({d["fuente"] for d in inmuebles if d.get("activo", True)}),
+        "origenes": origenes_ok,
         "inmuebles": inmuebles,
     }
     return estado, {"altas": len(altas), "actualizados": actualizados, "bajas": bajas,

@@ -215,8 +215,15 @@ _NO_CASA = (
     r"\blocal\b", r"nave\s+industrial", r"\boficina\b", r"\bdespacho\b",
     r"participacion\s+indivisa", r"cuota\s+indivisa", r"participacion\s+indivia",
     r"pieza\s+de\s+tierra", r"\bsolar\b", r"suelo\s+urbanizable",
-    r"\d+\s*[ºªoa]\s*[,\-]\s*\d+\s*[ºªoa]",          # "117, 2º, 1º" -> piso y puerta
-    r"planta\s+(?:primera|segunda|tercera|cuarta|quinta|sexta|septima|octava|alta|\d+)\s*,?\s*puerta",
+    # "70, 2º 1ª" -> planta y puerta (normaliza() convierte º/ª en o/a)
+    r"\d+\s*[ºªoa]\s*[,\-\s]\s*\d+\s*[ºªoa]\b",
+    # Vocabulario de propiedad horizontal: describe elementos de un edificio.
+    r"\bpuerta\s+(?:primera|segunda|tercera|cuarta|quinta|sexta|septima|octava|"
+    r"novena|decima|\d+|[a-d]\b)",
+    r"planta\s+(?:segunda|tercera|cuarta|quinta|sexta|septima|octava|novena|decima|"
+    r"\d{1,2}\s*[ªº]?)\b",
+    r"\bdepartamento\s+(?:numero\s+)?\w+", r"entidad\s+numero", r"elemento\s+numero",
+    r"escalera\s+numero", r"parte\s+indivisa", r"\bcuota\b.{0,20}\bindivis",
 )
 
 

@@ -77,3 +77,26 @@ def test_titulo_lugar():
     assert parse.titulo_lugar("EL PRAT DE LLOBREGAT") == "El Prat de Llobregat"
     assert parse.titulo_lugar("Sant Cugat del Vallès") == "Sant Cugat del Vallès"
     assert parse.titulo_lugar(None) is None
+
+
+def test_propiedad_horizontal_es_piso_no_casa():
+    casos = [
+        "Urbana: Número ciento cuarenta y cinco.- Vivienda en planta baja, puerta segunda, del bloque C-4",
+        "DEPARTAMENTO CUATRO.- planta baja, puerta tercera, del edificio con jardín",
+        "situada en la planta quinta de la escalera número cincuenta del Polígono",
+        "FINCA 3176 - Calle Platja Cassa, 70, 2º 1ª C.P: 08350",
+        "URBANA: UNA TREINTA Y OCHOAVA PARTE INDIVISA DE LA ZONA PRIVADA NÚMERO CINCO",
+    ]
+    for texto in casos:
+        assert parse.clasifica_tipo(texto) == "no_casa", texto
+
+
+def test_unifamiliares_siguen_reconociendose():
+    casos = [
+        "URBANA: VIVIENDA UNIFAMILIAR AISLADA, con frente a la calle de Creueta, parcela",
+        "Vivienda unifamiliar de planta baja solamente, sita en Sant Quirze del Vallès",
+        "Chalet adosado de 3 plantas con jardín",
+        "MASIA CON TERRENO DE 2 HECTAREAS",
+    ]
+    for texto in casos:
+        assert parse.clasifica_tipo(texto) == "casa", texto

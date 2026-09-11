@@ -64,6 +64,11 @@ class Geocodificador:
             return None
         return (entrada.get("nombre") or "").split(",")[0].strip() or None
 
+    @staticmethod
+    def limpia_cache_dudosa(cache: dict) -> dict:
+        """Descarta entradas de caché sin nombre de municipio reconocible."""
+        return {k: v for k, v in cache.items() if not v or v.get("nombre")}
+
     def distancia_a_barcelona(self, municipio: str | None, provincia: str | None = None) -> float | None:
         c = self.coords(municipio, provincia)
         return haversine_km(BARCELONA, c) if c else None
@@ -80,28 +85,46 @@ class Geocodificador:
         return f"{municipio.strip().lower()}|{(provincia or '').strip().lower()}"
 
     def _consulta(self, municipio: str, provincia: str | None) -> dict | None:
-        global _ultima_peticion
+        """Consulta Nominatim restringiendo a núcleos de población.
+
+        Sin esa restricción, un texto de dirección poco limpio ('Bcn-Nou
+        Barris') devuelve cualquier negocio con ese nombre, con coordenadas que
+        no son las del municipio. Es preferible no ubicar que ubicar mal.
+        """
         consulta = municipio if not provincia else f"{municipio}, {provincia}"
+        for params in (
+            {"q": f"{consulta}, España", "featureType": "settlement"},
+            {"q": f"{consulta}, España"},
+        ):
+            d = self._pide({**params, "format": "jsonv2", "limit": 1,
+                            "countrycodes": "es", "addressdetails": 1})
+            if not d:
+                continue
+            if d.get("class") not in ("place", "boundary"):
+                continue                      # no es un municipio: se descarta
+            direccion = d.get("address") or {}
+            nombre = (direccion.get("city") or direccion.get("town") or
+                      direccion.get("village") or direccion.get("municipality") or
+                      d.get("name") or "")
+            return {"lat": float(d["lat"]), "lon": float(d["lon"]),
+                    "nombre": nombre[:80] or d.get("display_name", "")[:80]}
+        return None
+
+    @staticmethod
+    def _pide(params: dict) -> dict | None:
+        global _ultima_peticion
         espera = 1.1 - (time.time() - _ultima_peticion)
         if espera > 0:
             time.sleep(espera)
         try:
-            r = requests.get(
-                NOMINATIM,
-                params={"q": f"{consulta}, España", "format": "json", "limit": 1,
-                        "countrycodes": "es", "addressdetails": 1},
-                headers={"User-Agent": USER_AGENT, "Accept-Language": "es"},
-                timeout=30,
-            )
+            r = requests.get(NOMINATIM, params=params,
+                             headers={"User-Agent": USER_AGENT, "Accept-Language": "es"},
+                             timeout=30)
             _ultima_peticion = time.time()
             if r.status_code != 200:
                 return None
             datos = r.json()
-            if not datos:
-                return None
-            d = datos[0]
-            return {"lat": float(d["lat"]), "lon": float(d["lon"]),
-                    "nombre": d.get("display_name", "")[:120]}
+            return datos[0] if datos else None
         except Exception:
             _ultima_peticion = time.time()
             return None

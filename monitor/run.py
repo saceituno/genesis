@@ -59,7 +59,7 @@ def principal(argv: list[str] | None = None) -> int:
             f.geo = geo        # permite descartar municipios lejanos antes de descargar
 
     encontrados: list[Inmueble] = []
-    fuentes_ok: list[str] = []
+    origenes_ok: list[str] = []
     resumen_fuentes: dict[str, dict] = {}
 
     for fuente in fuentes:
@@ -68,6 +68,7 @@ def principal(argv: list[str] | None = None) -> int:
         try:
             for inm in fuente.recoge():
                 brutos += 1
+                inm.origen = fuente.nombre
                 if not aplica(inm):
                     continue
                 _ubica(inm, geo)
@@ -78,15 +79,13 @@ def principal(argv: list[str] | None = None) -> int:
         except Exception:
             log.exception("Fallo recogiendo %s", fuente.nombre)
             continue
-        etiquetas = sorted({i.fuente for i in encontrados})
-        for e in etiquetas:
-            if e not in fuentes_ok and (e.startswith(fuente.nombre) or e == fuente.nombre):
-                fuentes_ok.append(e)
+        if brutos:
+            origenes_ok.append(fuente.nombre)
         resumen_fuentes[fuente.nombre] = {"revisados": brutos, "aceptados": crudos}
         log.info("%s: %s anuncios revisados, %s cumplen criterios", fuente.nombre, brutos, crudos)
 
     geo.guarda()
-    estado, cambios = store.fusiona(previo, encontrados, fuentes_ok)
+    estado, cambios = store.fusiona(previo, encontrados, origenes_ok)
     estado["criterios"] = asdict(CRITERIOS)
     estado["resumen_fuentes"] = resumen_fuentes
     store.guarda(estado)

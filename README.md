@@ -55,6 +55,12 @@ una sola pasada cubre juzgados, AEAT, Seguridad Social y notarías. El origen
 concreto de cada anuncio se guarda en el campo `fuente` y la autoridad gestora
 (juzgado, unidad de recaudación, TGSS…) en `organismo`.
 
+Qué orígenes aparecen cada día depende de lo que haya publicado en ese momento y
+supere los criterios: una pasada puede traer sólo judiciales y la siguiente
+incluir AEAT o Seguridad Social. El monitor consulta siempre los cinco; que una
+etiqueta no aparezca en el listado significa que ese día no había casas suyas
+dentro del radio, no que la fuente esté desactivada.
+
 Portales descartados en el reconocimiento previo, con el motivo:
 
 - **Haya Real Estate** — el dominio responde 522 (servicio caído).

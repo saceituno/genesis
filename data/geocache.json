@@ -1,0 +1,128 @@
+{
+ "arenys de mar|barcelona": {
+  "lat": 41.5797031,
+  "lon": 2.5491562,
+  "nombre": "Arenys de Mar, Maresme, Barcelona, Cataluña, 08350, España"
+ },
+ "badia del vallès|barcelona": {
+  "lat": 41.5075702,
+  "lon": 2.1153773,
+  "nombre": "Badia del Vallès, Vallés Occidental, Barcelona, Cataluña, 08214, España"
+ },
+ "barcelona|barcelona": {
+  "lat": 41.3825802,
+  "lon": 2.177073,
+  "nombre": "Barcelona, Barcelonés, Barcelona, Cataluña, España"
+ },
+ "calella|barcelona": {
+  "lat": 41.6132925,
+  "lon": 2.6576102,
+  "nombre": "Calella, Maresme, Barcelona, Cataluña, 08370, España"
+ },
+ "cercs|barcelona": {
+  "lat": 42.1463987,
+  "lon": 1.8606233,
+  "nombre": "Cercs, Berguedà, Barcelona, Cataluña, 08698, España"
+ },
+ "cubelles|barcelona": {
+  "lat": 41.2083363,
+  "lon": 1.6730541,
+  "nombre": "Cubelles, Garraf, Barcelona, Cataluña, 08880, España"
+ },
+ "el prat de llobregat|barcelona": {
+  "lat": 41.3305918,
+  "lon": 2.0930815,
+  "nombre": "el Prat de Llobregat, Bajo Llobregat, Barcelona, Cataluña, 08820, España"
+ },
+ "folgueroles|barcelona": {
+  "lat": 41.9392868,
+  "lon": 2.3180742,
+  "nombre": "Folgueroles, Osona, Barcelona, Cataluña, 08519, España"
+ },
+ "mollet del vallès|barcelona": {
+  "lat": 41.5393484,
+  "lon": 2.2130934,
+  "nombre": "Mollet del Vallès, Vallés Oriental, Barcelona, Cataluña, 08100, España"
+ },
+ "montcada i reixac|barcelona": {
+  "lat": 41.4800754,
+  "lon": 2.187009,
+  "nombre": "Montcada i Reixac, Vallés Occidental, Barcelona, Cataluña, España"
+ },
+ "olivella|barcelona": {
+  "lat": 41.3103129,
+  "lon": 1.8114946,
+  "nombre": "Olivella, Garraf, Barcelona, Cataluña, 08818, España"
+ },
+ "palafolls|barcelona": {
+  "lat": 41.6673913,
+  "lon": 2.7499262,
+  "nombre": "Palafolls, Maresme, Barcelona, Cataluña, 08389, España"
+ },
+ "pineda de mar|barcelona": {
+  "lat": 41.6276807,
+  "lon": 2.6898707,
+  "nombre": "Pineda de Mar, Maresme, Barcelona, Cataluña, 08397, España"
+ },
+ "r.p. viladecans tomo 1351|barcelona": null,
+ "rubí|barcelona": {
+  "lat": 41.4936194,
+  "lon": 2.0319476,
+  "nombre": "Rubí, Vallés Occidental, Barcelona, Cataluña, 08191, España"
+ },
+ "sabadell|barcelona": {
+  "lat": 41.5460801,
+  "lon": 2.1083214,
+  "nombre": "Sabadell, Vallés Occidental, Barcelona, Cataluña, España"
+ },
+ "sant feliu de llobregat|barcelona": {
+  "lat": 41.3812851,
+  "lon": 2.0446381,
+  "nombre": "Sant Feliu de Llobregat, Bajo Llobregat, Barcelona, Cataluña, 08980, España"
+ },
+ "sant pere de vilamajor|barcelona": {
+  "lat": 41.6843288,
+  "lon": 2.3900497,
+  "nombre": "Sant Pere de Vilamajor, Vallés Oriental, Barcelona, Cataluña, 08458, España"
+ },
+ "sant pol de mar|barcelona": {
+  "lat": 41.6030132,
+  "lon": 2.6238092,
+  "nombre": "Sant Pol de Mar, Maresme, Barcelona, Cataluña, 08395, España"
+ },
+ "sant vicenç de castellet|barcelona": {
+  "lat": 41.6669999,
+  "lon": 1.8625559,
+  "nombre": "Sant Vicenç de Castellet, Bages, Barcelona, Cataluña, España"
+ },
+ "sant vicenç de montalt|barcelona": {
+  "lat": 41.5787122,
+  "lon": 2.5103642,
+  "nombre": "Sant Vicenç de Montalt, Maresme, Barcelona, Cataluña, 08394, España"
+ },
+ "santa coloma de gramanet|barcelona": {
+  "lat": 41.4519395,
+  "lon": 2.2080809,
+  "nombre": "Santa Coloma de Gramenet, Barcelonés, Barcelona, Cataluña, España"
+ },
+ "santa coloma de gramenet|barcelona": {
+  "lat": 41.4519395,
+  "lon": 2.2080809,
+  "nombre": "Santa Coloma de Gramenet, Barcelonés, Barcelona, Cataluña, España"
+ },
+ "sitges|barcelona": {
+  "lat": 41.2353596,
+  "lon": 1.8114102,
+  "nombre": "Sitges, Garraf, Barcelona, Cataluña, España"
+ },
+ "terrassa|barcelona": {
+  "lat": 41.5629623,
+  "lon": 2.0100492,
+  "nombre": "Tarrasa, Vallés Occidental, Barcelona, Cataluña, España"
+ },
+ "tordera|barcelona": {
+  "lat": 41.6977173,
+  "lon": 2.7172987,
+  "nombre": "Tordera, Maresme, Barcelona, Cataluña, 08490, España"
+ }
+}

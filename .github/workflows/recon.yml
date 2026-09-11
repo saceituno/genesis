@@ -13,4 +13,4 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: '3.12' }
       - run: pip install requests beautifulsoup4 lxml
-      - run: python tools/recon5.py
+      - run: python tools/recon6.py

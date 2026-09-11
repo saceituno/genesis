@@ -14,20 +14,155 @@
   "lon": 2.177073,
   "nombre": "Barcelona, Barcelonés, Barcelona, Cataluña, España"
  },
+ "bcn-nou barris|barcelona": {
+  "lat": 41.4278102,
+  "lon": 2.1660065,
+  "nombre": "Artica Viajes Bcn, Carrer del Duero, Vilapicina i la Torre Llobeta, Nou Barris, Barcelona, Barcelonés, Barcelona, Catalu"
+ },
+ "begues (1)|barcelona": {
+  "lat": 41.3197002,
+  "lon": 1.9266001,
+  "nombre": "el Roure, 1, Begues, Bajo Llobregat, Barcelona, Cataluña, 08859, España"
+ },
+ "begues|barcelona": {
+  "lat": 41.3328119,
+  "lon": 1.925468,
+  "nombre": "Begues, Bajo Llobregat, Barcelona, Cataluña, 08859, España"
+ },
+ "berga (1)|barcelona": {
+  "lat": 41.4003235,
+  "lon": 2.1533087,
+  "nombre": "1,3,5, Carrer de Berga, la Vila de Gràcia, Gràcia, Barcelona, Barcelonés, Barcelona, Cataluña, 08006, España"
+ },
+ "berga|barcelona": {
+  "lat": 42.1011456,
+  "lon": 1.8454758,
+  "nombre": "Berga, Berguedà, Barcelona, Cataluña, 08600, España"
+ },
+ "bigues (1)|barcelona": {
+  "lat": 41.6790719,
+  "lon": 2.2084754,
+  "nombre": "Bigues, Bigues i Riells del Fai, Vallés Oriental, Barcelona, Cataluña, 08415, España"
+ },
+ "cabrera d'anoia (1)|barcelona": {
+  "lat": 41.5108659,
+  "lon": 1.7031149,
+  "nombre": "Terata, 1, Camí de Ca la Fou, Cabrera d'Anoia, Anoia, Barcelona, Cataluña, 08718, España"
+ },
+ "cabrils (1)|barcelona": {
+  "lat": 41.5262354,
+  "lon": 2.3676258,
+  "nombre": "Cabrils, Maresme, Barcelona, Cataluña, 08348, España"
+ },
+ "cabrils|barcelona": {
+  "lat": 41.5262354,
+  "lon": 2.3676258,
+  "nombre": "Cabrils, Maresme, Barcelona, Cataluña, 08348, España"
+ },
+ "calaf (1)|barcelona": {
+  "lat": 41.3980975,
+  "lon": 2.1452043,
+  "nombre": "1, Carrer de Calaf, Galvany, Sant Gervasi - Galvany, Sarrià - Sant Gervasi, Barcelona, Barcelonés, Barcelona, Cataluña, "
+ },
+ "calaf|barcelona": {
+  "lat": 41.7323852,
+  "lon": 1.5150275,
+  "nombre": "Calaf, Anoia, Barcelona, Cataluña, 08280, España"
+ },
+ "caldes de montbui (1)|barcelona": {
+  "lat": 41.6344802,
+  "lon": 2.1626124,
+  "nombre": "Caldes de Montbui, Vallés Oriental, Barcelona, Cataluña, 08140, España"
+ },
+ "caldes de montbui|barcelona": {
+  "lat": 41.6344802,
+  "lon": 2.1626124,
+  "nombre": "Caldes de Montbui, Vallés Oriental, Barcelona, Cataluña, 08140, España"
+ },
  "calella|barcelona": {
   "lat": 41.6132925,
   "lon": 2.6576102,
   "nombre": "Calella, Maresme, Barcelona, Cataluña, 08370, España"
+ },
+ "canyelles (1)|barcelona": {
+  "lat": 41.3967354,
+  "lon": 2.1210844,
+  "nombre": "1, Carrer de Canyelles, Sarrià, Sarrià - Sant Gervasi, Barcelona, Barcelonés, Barcelona, Cataluña, 08034, España"
+ },
+ "canyelles|barcelona": {
+  "lat": 41.2858273,
+  "lon": 1.7222743,
+  "nombre": "Canyelles, Garraf, Barcelona, Cataluña, 08811, España"
+ },
+ "cardedeu (1)|barcelona": {
+  "lat": 41.685667,
+  "lon": 2.2870927,
+  "nombre": "Ateneu Popular el Safareig, 1, Cardedeu, la Garriga, Vallés Oriental, Barcelona, Cataluña, 08530, España"
+ },
+ "cardedeu|barcelona": {
+  "lat": 41.6385167,
+  "lon": 2.3558408,
+  "nombre": "Cardedeu, Vallés Oriental, Barcelona, Cataluña, 08440, España"
+ },
+ "castellar del valles (1)|barcelona": {
+  "lat": 41.6138122,
+  "lon": 2.0875963,
+  "nombre": "Castellar del Vallès, Vallés Occidental, Barcelona, Cataluña, 08211, España"
+ },
+ "castellar del valles|barcelona": {
+  "lat": 41.6138122,
+  "lon": 2.0875963,
+  "nombre": "Castellar del Vallès, Vallés Occidental, Barcelona, Cataluña, 08211, España"
+ },
+ "castellbell i el vilar (1)|barcelona": {
+  "lat": 41.6362716,
+  "lon": 1.8534965,
+  "nombre": "Castellbell i el Vilar, Bages, Barcelona, Cataluña, 08296, España"
+ },
+ "castellbell i el vilar|barcelona": {
+  "lat": 41.6362716,
+  "lon": 1.8534965,
+  "nombre": "Castellbell i el Vilar, Bages, Barcelona, Cataluña, 08296, España"
+ },
+ "castellgali (1)|barcelona": {
+  "lat": 41.6732765,
+  "lon": 1.8378043,
+  "nombre": "Castellgalí, Bages, Barcelona, Cataluña, 08297, España"
  },
  "cercs|barcelona": {
   "lat": 42.1463987,
   "lon": 1.8606233,
   "nombre": "Cercs, Berguedà, Barcelona, Cataluña, 08698, España"
  },
+ "collbato (1)|barcelona": {
+  "lat": 41.5385085,
+  "lon": 1.8327025,
+  "nombre": "1, Carrer de Collbató, Esparreguera, Bajo Llobregat, Barcelona, Cataluña, 08292, España"
+ },
+ "collbato|barcelona": {
+  "lat": 41.570256,
+  "lon": 1.8285814,
+  "nombre": "Collbató, Bajo Llobregat, Barcelona, Cataluña, 08293, España"
+ },
+ "cubelles (2)|barcelona": {
+  "lat": 41.4261579,
+  "lon": 2.175243,
+  "nombre": "2, Carrer de Cubelles, la Torre Llobeta, Vilapicina i la Torre Llobeta, Nou Barris, Barcelona, Barcelonés, Barcelona, Ca"
+ },
  "cubelles|barcelona": {
   "lat": 41.2083363,
   "lon": 1.6730541,
   "nombre": "Cubelles, Garraf, Barcelona, Cataluña, 08880, España"
+ },
+ "dosrius (1)|barcelona": {
+  "lat": 41.4401322,
+  "lon": 2.1479603,
+  "nombre": "1, Carrer de Dosrius, Font del Gos, Horta, Horta-Guinardó, Barcelona, Barcelonés, Barcelona, Cataluña, 08035, España"
+ },
+ "dosrius|barcelona": {
+  "lat": 41.594347,
+  "lon": 2.4063166,
+  "nombre": "Dosrius, Maresme, Barcelona, Cataluña, España"
  },
  "el prat de llobregat|barcelona": {
   "lat": 41.3305918,
@@ -39,6 +174,26 @@
   "lon": 2.3180742,
   "nombre": "Folgueroles, Osona, Barcelona, Cataluña, 08519, España"
  },
+ "martorelles (1)|barcelona": {
+  "lat": 41.52851,
+  "lon": 2.2374755,
+  "nombre": "Martorelles, Vallés Oriental, Barcelona, Cataluña, 08107, España"
+ },
+ "martorelles|barcelona": {
+  "lat": 41.52851,
+  "lon": 2.2374755,
+  "nombre": "Martorelles, Vallés Oriental, Barcelona, Cataluña, 08107, España"
+ },
+ "mataró|barcelona": {
+  "lat": 41.5399994,
+  "lon": 2.4448577,
+  "nombre": "Mataró, Maresme, Barcelona, Cataluña, España"
+ },
+ "mediona (2)|barcelona": {
+  "lat": 41.4773943,
+  "lon": 1.6350185,
+  "nombre": "Mediona, Alto Penedés, Barcelona, Cataluña, 08773, España"
+ },
  "mollet del vallès|barcelona": {
   "lat": 41.5393484,
   "lon": 2.2130934,
@@ -48,6 +203,16 @@
   "lat": 41.4800754,
   "lon": 2.187009,
   "nombre": "Montcada i Reixac, Vallés Occidental, Barcelona, Cataluña, España"
+ },
+ "montesquiu (1)|barcelona": {
+  "lat": 42.108728,
+  "lon": 2.2086111,
+  "nombre": "Montesquiu, Osona, Barcelona, Cataluña, 08585, España"
+ },
+ "olivella (1)|barcelona": {
+  "lat": 41.2210756,
+  "lon": 1.7197078,
+  "nombre": "1, Carrer d'Olivella, Sant Joan, Vilanova i la Geltrú, Garraf, Barcelona, Cataluña, 08800, España"
  },
  "olivella|barcelona": {
   "lat": 41.3103129,
@@ -59,36 +224,131 @@
   "lon": 2.7499262,
   "nombre": "Palafolls, Maresme, Barcelona, Cataluña, 08389, España"
  },
+ "piera (2)|barcelona": {
+  "lat": 41.3771638,
+  "lon": 2.1169591,
+  "nombre": "2, Passatge de Madrona Piera, Sant Ramon, la Maternitat i Sant Ramon, les Corts, Barcelona, Barcelonés, Barcelona, Catal"
+ },
+ "piera|barcelona": {
+  "lat": 41.5216923,
+  "lon": 1.7526335,
+  "nombre": "Piera, Anoia, Barcelona, Cataluña, 08784, España"
+ },
  "pineda de mar|barcelona": {
   "lat": 41.6276807,
   "lon": 2.6898707,
   "nombre": "Pineda de Mar, Maresme, Barcelona, Cataluña, 08397, España"
  },
+ "pobla de lillet, la (1)|barcelona": {
+  "lat": 42.2404907,
+  "lon": 1.9655559,
+  "nombre": "Estació depuradora d'aigües residuals de La Pobla de Lillet, la Pobla de Lillet, Berguedà, Barcelona, Cataluña, España"
+ },
+ "pontons (2)|barcelona": {
+  "lat": 41.4267899,
+  "lon": 2.1729732,
+  "nombre": "2, Carrer de Pontons, la Torre Llobeta, Vilapicina i la Torre Llobeta, Nou Barris, Barcelona, Barcelonés, Barcelona, Cat"
+ },
+ "pontons|barcelona": {
+  "lat": 41.4155898,
+  "lon": 1.516296,
+  "nombre": "Pontons, Alto Penedés, Barcelona, Cataluña, 08738, España"
+ },
+ "puigdalber (1)|barcelona": {
+  "lat": 41.3561375,
+  "lon": 1.7009135,
+  "nombre": "1, Passatge de Puigdàlber, l'Espirall, el Bordellet, Vilafranca del Penedès, Alto Penedés, Barcelona, Cataluña, 08720, E"
+ },
+ "puigdalber|barcelona": {
+  "lat": 41.4045506,
+  "lon": 1.700349,
+  "nombre": "Puigdàlber, Alto Penedés, Barcelona, Cataluña, 08797, España"
+ },
  "r.p. viladecans tomo 1351|barcelona": null,
+ "rubi (1)|barcelona": {
+  "lat": 41.5069645,
+  "lon": 2.0318198,
+  "nombre": "DeltaLab, 1, Plaça de la Verneda, Polígon industrial la Llana, Rubí, Vallés Occidental, Barcelona, Cataluña, 08191, Espa"
+ },
  "rubí|barcelona": {
   "lat": 41.4936194,
   "lon": 2.0319476,
   "nombre": "Rubí, Vallés Occidental, Barcelona, Cataluña, 08191, España"
+ },
+ "sabadell (1)|barcelona": {
+  "lat": 41.5324378,
+  "lon": 2.0960506,
+  "nombre": "Padel X7, 1, Carrer Pau Vila, Sabadell, Vallés Occidental, Barcelona, Cataluña, 08192, España"
  },
  "sabadell|barcelona": {
   "lat": 41.5460801,
   "lon": 2.1083214,
   "nombre": "Sabadell, Vallés Occidental, Barcelona, Cataluña, España"
  },
+ "sant celoni (1)|barcelona": {
+  "lat": 41.6895041,
+  "lon": 2.4914526,
+  "nombre": "Sant Celoni, Vallés Oriental, Barcelona, Cataluña, 08476, España"
+ },
+ "sant cugat del valles (1)|barcelona": {
+  "lat": 41.4684726,
+  "lon": 2.0619538,
+  "nombre": "1, Plaça de Joan Borràs, Bell Indret, Mira-sol, Valldoreix, Sant Cugat del Vallès, Vallés Occidental, Barcelona, Cataluñ"
+ },
+ "sant cugat del valles|barcelona": {
+  "lat": 41.4707933,
+  "lon": 2.0848815,
+  "nombre": "Sant Cugat del Vallès, Vallés Occidental, Barcelona, Cataluña, España"
+ },
+ "sant cugat del vallés|barcelona": {
+  "lat": 41.4707933,
+  "lon": 2.0848815,
+  "nombre": "Sant Cugat del Vallès, Vallés Occidental, Barcelona, Cataluña, España"
+ },
  "sant feliu de llobregat|barcelona": {
   "lat": 41.3812851,
   "lon": 2.0446381,
   "nombre": "Sant Feliu de Llobregat, Bajo Llobregat, Barcelona, Cataluña, 08980, España"
+ },
+ "sant fost de campsentelles (1)|barcelona": {
+  "lat": 41.518752,
+  "lon": 2.2328323,
+  "nombre": "Sant Fost de Campsentelles, Vallés Oriental, Barcelona, Cataluña, 08105, España"
+ },
+ "sant fost de campsentelles|barcelona": {
+  "lat": 41.518752,
+  "lon": 2.2328323,
+  "nombre": "Sant Fost de Campsentelles, Vallés Oriental, Barcelona, Cataluña, 08105, España"
  },
  "sant pere de vilamajor|barcelona": {
   "lat": 41.6843288,
   "lon": 2.3900497,
   "nombre": "Sant Pere de Vilamajor, Vallés Oriental, Barcelona, Cataluña, 08458, España"
  },
+ "sant pol de mar (1)|barcelona": {
+  "lat": 41.6047055,
+  "lon": 2.623385,
+  "nombre": "Sorli Discau, 1, Carrer de la Sénia, Marina, Sant Pol de Mar, Maresme, Barcelona, Cataluña, 08395, España"
+ },
  "sant pol de mar|barcelona": {
   "lat": 41.6030132,
   "lon": 2.6238092,
   "nombre": "Sant Pol de Mar, Maresme, Barcelona, Cataluña, 08395, España"
+ },
+ "sant quirze safaja (1)|barcelona": {
+  "lat": 41.7271551,
+  "lon": 2.1530012,
+  "nombre": "Sant Quirze Safaja, Moianès, Barcelona, Cataluña, 08189, España"
+ },
+ "sant quirze safaja|barcelona": {
+  "lat": 41.7271551,
+  "lon": 2.1530012,
+  "nombre": "Sant Quirze Safaja, Moianès, Barcelona, Cataluña, 08189, España"
+ },
+ "sant vicenç de castellet (1)|barcelona": {
+  "lat": 41.6669999,
+  "lon": 1.8625559,
+  "nombre": "Sant Vicenç de Castellet, Bages, Barcelona, Cataluña, España"
  },
  "sant vicenç de castellet|barcelona": {
   "lat": 41.6669999,
@@ -105,6 +365,11 @@
   "lon": 2.2080809,
   "nombre": "Santa Coloma de Gramenet, Barcelonés, Barcelona, Cataluña, España"
  },
+ "santa coloma de gramenet (1)|barcelona": {
+  "lat": 41.4519395,
+  "lon": 2.2080809,
+  "nombre": "Santa Coloma de Gramenet, Barcelonés, Barcelona, Cataluña, España"
+ },
  "santa coloma de gramenet|barcelona": {
   "lat": 41.4519395,
   "lon": 2.2080809,
@@ -115,14 +380,45 @@
   "lon": 1.8114102,
   "nombre": "Sitges, Garraf, Barcelona, Cataluña, España"
  },
+ "terrassa (1)|barcelona": {
+  "lat": 41.5632994,
+  "lon": 2.0187406,
+  "nombre": "Consultes Externes i Rehabilitació de Mútua Terrassa, 1, Pont del Passeig, Barri Universitari-Cementiri Vell, Districte "
+ },
  "terrassa|barcelona": {
   "lat": 41.5629623,
   "lon": 2.0100492,
   "nombre": "Tarrasa, Vallés Occidental, Barcelona, Cataluña, España"
  },
+ "tordera (5)|barcelona": {
+  "lat": 41.4660375,
+  "lon": 2.2385669,
+  "nombre": "5, Carrer de Fogars de Tordera, Bonavista, Districte 3, Badalona, Barcelonés, Barcelona, Cataluña, 08916, España"
+ },
  "tordera|barcelona": {
   "lat": 41.6977173,
   "lon": 2.7172987,
   "nombre": "Tordera, Maresme, Barcelona, Cataluña, 08490, España"
+ },
+ "trencarroques (castellet i la gornal) (1)|barcelona": {
+  "lat": 41.2362836,
+  "lon": 1.6329643,
+  "nombre": "Costa-Cunit-Castellet Sector Trencarroques, Castellet i la Gornal, Alto Penedés, Barcelona, Cataluña, 08729, España"
+ },
+ "vallgorguina (1)|barcelona": {
+  "lat": 41.6473229,
+  "lon": 2.5100384,
+  "nombre": "Vallgorguina, Vallés Oriental, Barcelona, Cataluña, 08470, España"
+ },
+ "ventayol, el (1)|barcelona": null,
+ "ventayol, el|barcelona": {
+  "lat": 41.6115231,
+  "lon": 1.8684956,
+  "nombre": "Masia Ventayol, 1-3, Passatge de l'Onyar, el Ventaiol, el Raval de Can Franc, Vacarisses, Vallés Occidental, Barcelona, "
+ },
+ "vilanova i la geltru (3)|barcelona": {
+  "lat": 41.2242938,
+  "lon": 1.7264069,
+  "nombre": "Vidal Piqué i Associats, 3, Plaça de la Vila, Centrevila, Vilanova i la Geltrú, Garraf, Barcelona, Cataluña, 08800, Espa"
  }
 }

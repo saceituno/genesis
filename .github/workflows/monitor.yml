@@ -1,0 +1,52 @@
+name: monitor-subastas
+
+on:
+  schedule:
+    - cron: '17 5 * * *'        # cada día a las 07:17 hora peninsular
+  workflow_dispatch:
+    inputs:
+      paginas:
+        description: 'Tope de páginas por listado'
+        default: '20'
+  push:
+    paths:
+      - 'monitor/**'
+      - '.github/workflows/monitor.yml'
+      - 'requirements.txt'
+
+concurrency:
+  group: monitor-subastas
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  recoger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: Recoger subastas
+        run: python -m monitor.run --paginas "${{ github.event.inputs.paginas || 20 }}" -v
+
+      - name: QA del listado
+        run: python tools/qa.py
+
+      - name: Publicar cambios
+        run: |
+          git config user.name  "monitor-subastas[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "Sin cambios en el listado."
+          else
+            git commit -m "datos: actualización del listado de subastas ($(date -u +%Y-%m-%d))"
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi

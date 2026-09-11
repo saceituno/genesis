@@ -1,9 +1,71 @@
-<html>
- 
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Subastas de casas · 40 km de Barcelona</title>
+<meta name="description" content="Monitor de subastas y ventas de casas en un radio de 40 km de Barcelona.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/app.css">
+</head>
 <body>
-  <h1>Sebstian A2</h1>
-  <p>Welcome to my Genesis website!</p>
-  <img src="https://content.codecademy.com/articles/github-pages-via-web-app/happy-ice-cream.gif" />
+
+<header class="top">
+  <div class="top-in">
+    <h1>Casas en subasta · 40 km de Barcelona</h1>
+    <p class="sub" id="resumen">Cargando datos…</p>
+
+    <div class="filtros" id="filtros" hidden>
+      <div class="campo">
+        <input type="search" id="f-texto" placeholder="Municipio, calle, referencia…" aria-label="Buscar texto">
+      </div>
+      <div class="campo">
+        <label for="f-muni">Ubicación</label>
+        <select id="f-muni"><option value="">Todas</option></select>
+      </div>
+      <div class="campo">
+        <label>Precio</label>
+        <input type="number" id="f-pmin" placeholder="mín" min="0" step="1000" aria-label="Precio mínimo">
+        <span>–</span>
+        <input type="number" id="f-pmax" placeholder="máx" min="0" step="1000" aria-label="Precio máximo">
+        <span>€</span>
+      </div>
+      <div class="campo">
+        <label for="f-dist">Radio <b id="f-dist-val">40</b> km</label>
+        <input type="range" id="f-dist" min="5" max="40" value="40" step="1">
+      </div>
+      <div class="campo">
+        <label for="f-orden">Orden</label>
+        <select id="f-orden">
+          <option value="distancia">Más cerca</option>
+          <option value="precio-asc">Precio ↑</option>
+          <option value="precio-desc">Precio ↓</option>
+          <option value="nuevos">Novedades</option>
+          <option value="superficie">Superficie ↓</option>
+        </select>
+      </div>
+      <div class="chips" id="f-fuentes"></div>
+      <div class="chips">
+        <button class="chip" id="f-verificados" aria-pressed="false" title="Sólo fichas con dormitorios, superficie y parcela confirmados">Sólo datos completos</button>
+        <button class="chip" id="f-nuevos" aria-pressed="false">Novedades 7 días</button>
+      </div>
+      <button class="btn-reset" id="f-reset">Limpiar</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="meta-listado" id="meta" hidden>
+    <span id="contador"></span>
+    <span id="actualizado"></span>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="vacio" id="vacio" hidden></div>
+</main>
+
+<div class="overlay" id="overlay"></div>
+<aside class="panel" id="panel" aria-live="polite"><div class="panel-in" id="panel-in"></div></aside>
+
+<script src="assets/app.js"></script>
 </body>
- 
 </html>

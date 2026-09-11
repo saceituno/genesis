@@ -100,7 +100,9 @@ class Geocodificador:
                             "countrycodes": "es", "addressdetails": 1})
             if not d:
                 continue
-            if d.get("class") not in ("place", "boundary"):
+            # El formato jsonv2 llama 'category' a lo que 'json' llama 'class'.
+            categoria = d.get("category") or d.get("class")
+            if categoria not in ("place", "boundary"):
                 continue                      # no es un municipio: se descarta
             direccion = d.get("address") or {}
             nombre = (direccion.get("city") or direccion.get("town") or

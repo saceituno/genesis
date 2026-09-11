@@ -51,8 +51,13 @@ def main() -> int:
     if lejos:
         fallos.append(f"{len(lejos)} inmuebles fuera del radio de {radio} km")
 
+    # La distancia es el criterio que no se puede verificar a ojo en la ficha:
+    # si falla la geolocalización, el listado deja de estar acotado a los 40 km.
     sin_ubicar = [i for i in activos if i.get("distancia_km") is None]
-    if sin_ubicar:
+    if len(sin_ubicar) > len(activos) * 0.4:
+        fallos.append(f"{len(sin_ubicar)} de {len(activos)} inmuebles sin geolocalizar: "
+                      "el radio no se está aplicando")
+    elif sin_ubicar:
         avisos.append(f"{len(sin_ubicar)} inmuebles sin geolocalizar")
 
     for campo, minimo in (("superficie_m2", 80), ("terreno_m2", 300), ("dormitorios", 2)):

@@ -1,37 +1,164 @@
-## Welcome to GitHub Pages
+# Monitor de subastas de casas · 40 km de Barcelona
 
-You can use the [editor on GitHub](https://github.com/saceituno/genesis/edit/main/README.md) to maintain and preview the content for your website in Markdown files.
+Sistema ligero que revisa de forma recurrente los portales de subastas y de
+servicers inmobiliarios, se queda sólo con las **casas** que cumplen los
+criterios de búsqueda y mantiene un listado acumulativo con el enlace a cada
+ficha original y la plataforma de la que procede.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+**Listado:** `index.html` (se publica solo con GitHub Pages)
+**Datos:** `data/listings.json`
 
-### Markdown
+---
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## Criterios de búsqueda
 
-```markdown
-Syntax highlighted code block
+| Criterio | Valor |
+|---|---|
+| Tipología | Casa / chalet / unifamiliar / adosado / masía (excluye pisos, locales, garajes) |
+| Dormitorios | ≥ 2 |
+| Superficie construida | ≥ 80 m² |
+| Parcela / terreno | ≥ 300 m² |
+| Distancia | ≤ 40 km de Plaça de Catalunya (distancia ortodrómica) |
 
-# Header 1
-## Header 2
-### Header 3
+Se ajustan en `monitor/config.py`.
 
-- Bulleted
-- List
+### Total, parcial y descartado
 
-1. Numbered
-2. List
+Muchos anuncios de subasta —sobre todo los judiciales— no publican dormitorios
+ni superficie de parcela. Descartar por silencio dejaría fuera oportunidades
+reales, así que cada inmueble se clasifica en:
 
-**Bold** and _Italic_ and `Code` text
+- **total**: todos los criterios confirmados con dato explícito.
+- **parcial**: ningún criterio incumple, pero falta algún dato por verificar en
+  la ficha original. Aparece marcado en la interfaz con el aviso de qué falta.
+- **descartado**: algún criterio se incumple con dato explícito. No se guarda.
 
-[Link](url) and ![Image](src)
+El filtro «Sólo datos completos» de la interfaz deja a la vista únicamente los
+primeros.
+
+---
+
+## Plataformas
+
+| Plataforma | Qué aporta | Cómo se lee |
+|---|---|---|
+| **BOE · Judicial** | Subastas de juzgados | Portal de Subastas (`subastas.boe.es`), formulario de búsqueda avanzada |
+| **BOE · Agencia Tributaria** | Embargos de la AEAT | ídem |
+| **BOE · Seguridad Social** | Embargos de la TGSS | ídem (se detecta por la autoridad gestora) |
+| **BOE · Notarial** | Subastas notariales | ídem |
+| **BOE · otras administraciones** | Resto de subastas administrativas | ídem |
+| **Servihabitat** | Cartera de adjudicados en venta directa | Fichas con JSON-LD schema.org |
+
+El Portal de Subastas del BOE es la fuente oficial única de las subastas
+públicas españolas: los cinco orígenes anteriores se publican ahí, de modo que
+una sola pasada cubre juzgados, AEAT, Seguridad Social y notarías. El origen
+concreto de cada anuncio se guarda en el campo `fuente` y la autoridad gestora
+(juzgado, unidad de recaudación, TGSS…) en `organismo`.
+
+Portales descartados en el reconocimiento previo, con el motivo:
+
+- **Haya Real Estate** — el dominio responde 522 (servicio caído).
+- **Sareb** — protegido con Imperva/Incapsula, no sirve HTML.
+- **Solvia y Altamira** — aplicaciones Angular/Vite sin renderizado en servidor;
+  su `robots.txt` prohíbe además las rutas de resultados (`/api/`, `/ajax/`,
+  `/resultados`). Habría que usar navegador headless contra endpoints vetados.
+- **Aliseda** — su sitemap publica 5.542 fichas sin tipología ni provincia en la
+  URL; recorrerlas todas cada día no compensa para el alcance de este monitor.
+
+Añadir una plataforma nueva es escribir un módulo en `monitor/sources/` que
+devuelva objetos `Inmueble` y registrarlo en `monitor/sources/__init__.py`.
+
+---
+
+## Uso
+
+```bash
+pip install -r requirements.txt
+python -m monitor.run -v            # pasada completa
+python -m monitor.run --fuente BOE  # sólo una plataforma
+python -m monitor.run --sin-red     # re-evalúa el JSON ya guardado
+python tools/qa.py                  # comprueba que el listado es publicable
+python -m pytest tests -q           # pruebas del parseo y del almacén
 ```
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+Para ver la interfaz en local:
 
-### Jekyll Themes
+```bash
+python -m http.server 8000     # y abrir http://localhost:8000
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/saceituno/genesis/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Ejecución automática
 
-### Support or Contact
+`.github/workflows/monitor.yml` ejecuta una pasada diaria (07:17 hora
+peninsular), pasa el QA y hace commit de `data/` sólo si hay cambios. También se
+puede lanzar a mano desde la pestaña **Actions → monitor-subastas → Run
+workflow**.
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+---
+
+## Cómo se mantiene el listado
+
+`data/listings.json` es el estado completo, no una foto de la última pasada:
+
+- Un inmueble nuevo se da de **alta** con `first_seen`.
+- Si vuelve a aparecer, se actualiza `last_seen` y se completan los campos que
+  antes faltaban (un dato ya conocido nunca se pisa con un vacío).
+- Si desaparece de su portal, se marca `activo: false` con `baja_detectada` en
+  vez de borrarse, para conservar el histórico. Sólo se dan de baja inmuebles de
+  plataformas que respondieron en esa pasada, de modo que una caída del portal
+  no vacía el listado.
+
+La interfaz muestra los vigentes y destaca como **NUEVO** lo detectado en los
+últimos 7 días.
+
+---
+
+## Geolocalización
+
+Los portales dan municipio, no coordenadas. Se geocodifica una vez por municipio
+contra **Nominatim (OpenStreetMap)**, respetando su límite de una petición por
+segundo, y el resultado se guarda en `data/geocache.json`. Ningún dato de
+ubicación es inventado: si un municipio no se puede geocodificar, el inmueble se
+conserva con `distancia_km: null` y queda marcado como pendiente de ubicar.
+
+La búsqueda en el BOE se limita a la provincia de Barcelona porque el radio de
+40 km no alcanza ningún municipio de Girona ni de Tarragona.
+
+---
+
+## Cortesía y robots.txt
+
+El cliente HTTP se identifica con un User-Agent propio y espera 1,2 s entre
+peticiones al mismo host, con reintentos y espera exponencial ante 429/5xx.
+
+**A tener en cuenta:** el `robots.txt` de `subastas.boe.es` contiene
+`Disallow: /` (el portal no quiere ser indexado por buscadores, dado que cada
+búsqueda genera URLs distintas). Este monitor hace unas pocas decenas de
+peticiones al día, muy por debajo de un rastreo, pero la decisión de consultarlo
+es tuya: ejecutando con `--robots` (o `RESPETAR_ROBOTS=1`) el monitor obedece el
+`robots.txt` de cada portal y, en ese modo, el BOE queda fuera y el listado se
+alimenta sólo del resto de plataformas.
+
+---
+
+## Estructura
+
+```
+monitor/
+  config.py      criterios, radio y ritmo de peticiones
+  http.py        sesión con reintentos, ritmo por host y robots.txt
+  parse.py       extracción de m², dormitorios, precio y tipología del texto
+  criteria.py    total / parcial / descartado
+  geo.py         haversine + geocodificación cacheada
+  models.py      el objeto Inmueble
+  store.py       fusión incremental del listado
+  run.py         orquestador
+  sources/       boe.py, servihabitat.py
+tools/
+  qa.py          control de calidad del listado
+  recon*.py      reconocimiento de los portales (histórico de la investigación)
+tests/           pruebas del parseo, criterios, almacén y distancias
+index.html       interfaz
+assets/          estilos y lógica del listado
+data/            listings.json + geocache.json
+```

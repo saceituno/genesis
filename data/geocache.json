@@ -138,6 +138,11 @@
   "lon": 2.4063166,
   "nombre": "Dosrius"
  },
+ "el masnou|barcelona": {
+  "lat": 41.4796899,
+  "lon": 2.3118347,
+  "nombre": "el Masnou"
+ },
  "el ventayol|barcelona": null,
  "folgueroles|barcelona": {
   "lat": 41.9392868,
@@ -244,6 +249,11 @@
   "lon": 2.0848815,
   "nombre": "Sant Cugat del Vallès"
  },
+ "sant cugat del vallés|barcelona": {
+  "lat": 41.4707933,
+  "lon": 2.0848815,
+  "nombre": "Sant Cugat del Vallès"
+ },
  "sant fost de campsentelles (1)|barcelona": {
   "lat": 41.518752,
   "lon": 2.2328323,
@@ -320,6 +330,11 @@
  "ventayol, el|barcelona": null,
  "vilanova i la geltru (3)|barcelona": null,
  "vilanova i la geltru|barcelona": {
+  "lat": 41.2241992,
+  "lon": 1.7256327,
+  "nombre": "Vilanova i la Geltrú"
+ },
+ "vilanova i la geltrú|barcelona": {
   "lat": 41.2241992,
   "lon": 1.7256327,
   "nombre": "Vilanova i la Geltrú"

@@ -10,6 +10,9 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from monitor.vigencia import revisa                                # noqa: E402
+
 RUTA = Path(__file__).resolve().parent.parent / "data" / "listings.json"
 
 
@@ -64,6 +67,13 @@ def main() -> int:
         malos = [i for i in activos if i.get(campo) is not None and i[campo] < minimo]
         if malos:
             fallos.append(f"{len(malos)} inmuebles incumplen {campo} >= {minimo}")
+
+    caducados = [i for i in activos if not revisa(i)[0]]
+    if caducados:
+        fallos.append(f"{len(caducados)} inmuebles vigentes pero con señales de estar cerrados")
+
+    if not (RUTA.with_suffix(".js")).exists():
+        fallos.append("falta data/listings.js: la página no podría abrirse desde el disco")
 
     completos = [i for i in activos if i.get("cumple") == "total"]
     con_imagen = [i for i in activos if i.get("imagen")]

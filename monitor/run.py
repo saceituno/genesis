@@ -12,7 +12,7 @@ import os
 import sys
 from dataclasses import asdict
 
-from . import parse, store
+from . import parse, store, vigencia
 from .config import BARCELONA, CRITERIOS
 from .criteria import aplica
 from .geo import Geocodificador, haversine_km
@@ -64,11 +64,18 @@ def principal(argv: list[str] | None = None) -> int:
 
     for fuente in fuentes:
         log.info("── Fuente %s ──", fuente.nombre)
-        crudos = brutos = 0
+        crudos = brutos = cerrados = 0
         try:
             for inm in fuente.recoge():
                 brutos += 1
                 inm.origen = fuente.nombre
+                # Antes que nada: si el proceso ya está cerrado no interesa, y así
+                # tampoco se gasta una consulta de geolocalización en él.
+                sigue, motivo = vigencia.revisa(inm)
+                if not sigue:
+                    cerrados += 1
+                    log.debug("Descartado %s: %s", inm.referencia, motivo)
+                    continue
                 if not aplica(inm):
                     continue
                 _ubica(inm, geo)
@@ -81,8 +88,10 @@ def principal(argv: list[str] | None = None) -> int:
             continue
         if brutos:
             origenes_ok.append(fuente.nombre)
-        resumen_fuentes[fuente.nombre] = {"revisados": brutos, "aceptados": crudos}
-        log.info("%s: %s anuncios revisados, %s cumplen criterios", fuente.nombre, brutos, crudos)
+        resumen_fuentes[fuente.nombre] = {"revisados": brutos, "cerrados": cerrados,
+                                          "aceptados": crudos}
+        log.info("%s: %s anuncios revisados, %s ya cerrados, %s cumplen criterios",
+                 fuente.nombre, brutos, cerrados, crudos)
 
     geo.guarda()
     estado, cambios = store.fusiona(previo, encontrados, origenes_ok)
@@ -90,8 +99,8 @@ def principal(argv: list[str] | None = None) -> int:
     estado["resumen_fuentes"] = resumen_fuentes
     store.guarda(estado)
 
-    log.info("RESULTADO: %(total)s en el listado (%(activos)s vigentes) · "
-             "%(altas)s altas · %(actualizados)s actualizados · %(bajas)s bajas", cambios)
+    log.info("RESULTADO: %(total)s en el listado (%(activos)s vigentes) · %(altas)s altas · "
+             "%(actualizados)s actualizados · %(bajas)s bajas · %(caducados)s caducados", cambios)
     if not estado["inmuebles"]:
         log.warning("El listado ha quedado vacío: revisa los parsers antes de publicar")
     return 0

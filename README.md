@@ -1,12 +1,14 @@
 # Monitor de subastas de casas · 40 km de Barcelona
 
 Sistema ligero que revisa de forma recurrente los portales de subastas y de
-servicers inmobiliarios, se queda sólo con las **casas** que cumplen los
-criterios de búsqueda y mantiene un listado acumulativo con el enlace a cada
+servicers inmobiliarios, se queda sólo con las **casas en proceso abierto** que
+cumplen los criterios de búsqueda y mantiene un listado con el enlace a cada
 ficha original y la plataforma de la que procede.
 
-**Listado:** `index.html` (se publica solo con GitHub Pages)
-**Datos:** `data/listings.json`
+**Listado:** `index.html` — un botón, *Generar búsquedas*, carga los resultados.
+Funciona igual abriéndolo con doble clic que servido por HTTP.
+**Datos:** `data/listings.json` (estado completo) y `data/listings.js` (lo que lee
+la página).
 
 ---
 
@@ -22,6 +24,23 @@ ficha original y la plataforma de la que procede.
 
 Se ajustan en `monitor/config.py`.
 
+### Sólo procesos abiertos
+
+Un listado de oportunidades sólo sirve si lo que muestra se puede pujar o comprar
+hoy, así que se descarta todo lo que tenga alguna señal de estar cerrado:
+
+- un estado que lo diga (cancelada, desierta, adjudicada, vendido, reservado…),
+- una fecha de conclusión ya pasada,
+- una convocatoria de un año anterior,
+- un anuncio que se declare fuera de plazo o no disponible.
+
+La comprobación se hace dos veces: al recoger, para no gastar peticiones en lo
+que ya está cerrado, y al guardar, para que un plazo que venció ayer salga del
+listado aunque el portal todavía no lo haya retirado.
+
+Ante la falta de información se conserva: muchas fichas no publican fechas y
+retirarlas por silencio vaciaría el listado.
+
 ### Total, parcial y descartado
 
 Muchos anuncios de subasta —sobre todo los judiciales— no publican dormitorios
@@ -33,8 +52,7 @@ reales, así que cada inmueble se clasifica en:
   la ficha original. Aparece marcado en la interfaz con el aviso de qué falta.
 - **descartado**: algún criterio se incumple con dato explícito. No se guarda.
 
-El filtro «Sólo datos completos» de la interfaz deja a la vista únicamente los
-primeros.
+La interfaz marca cada ficha con lo que falta por verificar.
 
 ---
 
@@ -87,11 +105,10 @@ python tools/qa.py                  # comprueba que el listado es publicable
 python -m pytest tests -q           # pruebas del parseo y del almacén
 ```
 
-Para ver la interfaz en local:
-
-```bash
-python -m http.server 8000     # y abrir http://localhost:8000
-```
+Para ver la interfaz basta con abrir `index.html` en el navegador y pulsar
+**Generar búsquedas**; no hace falta servidor. Los datos se cargan inyectando
+`data/listings.js`, porque al abrir la página desde el disco el navegador
+bloquea `fetch()` por CORS y el listado aparecía vacío.
 
 ### Ejecución automática
 
@@ -162,9 +179,11 @@ monitor/
   sources/       boe.py, servihabitat.py
 tools/
   qa.py          control de calidad del listado
+  qa_ui.py       QA de la interfaz con navegador real (file:// y http://)
   recon*.py      reconocimiento de los portales (histórico de la investigación)
 tests/           pruebas del parseo, criterios, almacén y distancias
-index.html       interfaz
-assets/          estilos y lógica del listado
-data/            listings.json + geocache.json
+  vigencia.py    ¿sigue el proceso abierto?
+index.html       interfaz: un botón y el listado
+assets/          estilos y lógica del listado (sin dependencias)
+data/            listings.json (estado) · listings.js (lo que lee la web) · geocache.json
 ```

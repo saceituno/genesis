@@ -1,9 +1,8 @@
-"""QA de la interfaz con navegador real: comprueba que el listado es operativo.
+"""QA de la interfaz con navegador real.
 
-Levanta un servidor local, abre index.html con los datos reales y verifica que
-se pintan las fichas, que los filtros de ubicación, precio, plataforma y radio
-responden, y que la ficha de detalle enlaza al origen. Deja capturas en
-data/qa/.
+Comprueba las dos formas de abrir la página —desde el disco (file://) y desde un
+servidor (http://)— porque el fallo que dejaba el listado vacío sólo aparecía en
+la primera: el navegador bloquea fetch() en file:// por CORS.
 """
 from __future__ import annotations
 
@@ -18,17 +17,6 @@ from playwright.sync_api import sync_playwright
 
 RAIZ = Path(__file__).resolve().parent.parent
 PUERTO = 8765
-
-def _chromium() -> str | None:
-    """Chromium de Playwright, esté donde esté instalado."""
-    for patron in ("chromium*/chrome-linux/chrome", "chromium*/chrome-linux64/chrome"):
-        for ruta in sorted(Path("/opt/pw-browsers").glob(patron), reverse=True):
-            if ruta.is_file():
-                return str(ruta)
-    return None
-
-
-CHROMIUM = _chromium()
 fallos: list[str] = []
 
 
@@ -36,6 +24,14 @@ def comprueba(condicion: bool, mensaje: str) -> None:
     print(("  ✓ " if condicion else "  ✗ ") + mensaje)
     if not condicion:
         fallos.append(mensaje)
+
+
+def _chromium() -> str | None:
+    for patron in ("chromium*/chrome-linux/chrome", "chromium*/chrome-linux64/chrome"):
+        for ruta in sorted(Path("/opt/pw-browsers").glob(patron), reverse=True):
+            if ruta.is_file():
+                return str(ruta)
+    return None
 
 
 def servidor():
@@ -51,107 +47,71 @@ def servidor():
     return httpd
 
 
+def revisa_pagina(nav, url, etiqueta, esperadas, capturas=None):
+    print(f"\n— {etiqueta} —")
+    pag = nav.new_page(viewport={"width": 1280, "height": 900})
+    errores: list[str] = []
+    pag.on("pageerror", lambda e: errores.append(str(e)))
+    pag.goto(url)
+
+    comprueba(pag.locator("#buscar").is_visible(), "el botón «Generar búsquedas» está a la vista")
+    comprueba(pag.locator(".card").count() == 0, "antes de pulsar no se pinta nada")
+
+    pag.click("#buscar")
+    pag.wait_for_selector(".card", timeout=15000)
+    tarjetas = pag.locator(".card").count()
+    comprueba(tarjetas == esperadas, f"al pulsar aparecen las {esperadas} viviendas (salen {tarjetas})")
+    comprueba("viviendas en proceso abierto" in pag.inner_text("#estado"),
+              f"el estado resume el resultado: «{pag.inner_text('#estado')[:70]}»")
+    comprueba(pag.locator("#buscar").inner_text() == "Actualizar búsqueda",
+              "el botón pasa a «Actualizar búsqueda»")
+
+    enlaces = pag.locator(".card").evaluate_all("els => els.map(e => e.href)")
+    comprueba(all(u.startswith("http") for u in enlaces), "cada ficha enlaza a su anuncio original")
+    plataformas = set(pag.locator(".card .badge").all_inner_texts())
+    comprueba(len(plataformas) > 0, f"cada ficha indica su plataforma: {sorted(plataformas)}")
+    comprueba(pag.locator("#pie").is_visible(), "el pie con los criterios aparece con los datos")
+
+    pag.click("#buscar")                       # segunda pulsación: recarga
+    pag.wait_for_timeout(600)
+    comprueba(pag.locator(".card").count() == esperadas, "volver a pulsar recarga sin duplicar")
+    comprueba(not errores, f"sin errores de JavaScript {errores[:2]}")
+
+    if capturas:
+        pag.screenshot(path=str(capturas / "escritorio.png"))
+    pag.close()
+
+
 def main() -> int:
     datos = json.loads((RAIZ / "data" / "listings.json").read_text("utf-8"))
-    activos = [i for i in datos["inmuebles"] if i.get("activo", True)]
-    print(f"Datos: {len(activos)} inmuebles vigentes")
+    esperadas = len([i for i in datos["inmuebles"] if i.get("activo", True)])
+    print(f"Datos: {esperadas} viviendas vigentes")
+    comprueba((RAIZ / "data" / "listings.js").exists(), "existe data/listings.js (carga sin CORS)")
 
     httpd = servidor()
     salida = RAIZ / "data" / "qa"
     salida.mkdir(parents=True, exist_ok=True)
 
     with sync_playwright() as p:
-        nav = p.chromium.launch(executable_path=CHROMIUM)
-        pag = nav.new_page(viewport={"width": 1280, "height": 900})
-        errores_js: list[str] = []
-        pag.on("pageerror", lambda e: errores_js.append(str(e)))
-        pag.goto(f"http://127.0.0.1:{PUERTO}/index.html", wait_until="networkidle")
-        pag.wait_for_selector(".card", timeout=15000)
+        nav = p.chromium.launch(executable_path=_chromium())
+        # El caso que fallaba: abrir el fichero con doble clic.
+        revisa_pagina(nav, f"file://{RAIZ}/index.html", "Abierto desde el disco (file://)", esperadas)
+        revisa_pagina(nav, f"http://127.0.0.1:{PUERTO}/index.html", "Servido por HTTP",
+                      esperadas, capturas=salida)
 
-        tarjetas = pag.locator(".card").count()
-        print("\n1. Pintado inicial")
-        comprueba(tarjetas > 0, f"se pintan fichas ({tarjetas})")
-        comprueba(tarjetas == len(activos), f"se pintan todas las vigentes ({tarjetas}/{len(activos)})")
-        comprueba(not errores_js, f"sin errores de JavaScript {errores_js[:2]}")
-        resumen = pag.inner_text("#resumen")
-        comprueba("plataformas" in resumen, f"cabecera con resumen: «{resumen[:90]}»")
-
-        print("\n2. Origen visible en cada ficha")
-        fuentes_ui = set(pag.locator(".card .badge").all_inner_texts())
-        fuentes_datos = {i["fuente"] for i in activos}
-        comprueba(fuentes_datos.issubset(fuentes_ui | {"NUEVO", "DATOS PARCIALES"}),
-                  f"la plataforma aparece en la tarjeta: {sorted(fuentes_datos)}")
-
-        print("\n3. Filtro de ubicación")
-        municipio = next((i["municipio"] for i in activos if i.get("municipio")), None)
-        esperado = sum(1 for i in activos if i.get("municipio") == municipio)
-        pag.select_option("#f-muni", municipio)
-        pag.wait_for_timeout(250)
-        n = pag.locator(".card").count()
-        comprueba(n == esperado, f"«{municipio}» → {n} fichas (esperadas {esperado})")
-        pag.select_option("#f-muni", "")
-        pag.wait_for_timeout(200)
-
-        print("\n4. Filtro de precio")
-        precios = sorted(i["precio"] for i in activos if i.get("precio") is not None)
-        if precios:
-            corte = precios[len(precios) // 2]
-            esperado = sum(1 for i in activos if (i.get("precio") or -1) <= corte and i.get("precio") is not None)
-            pag.fill("#f-pmax", str(int(corte)))
-            pag.wait_for_timeout(250)
-            n = pag.locator(".card").count()
-            comprueba(n == esperado, f"hasta {int(corte)} € → {n} fichas (esperadas {esperado})")
-            pag.fill("#f-pmax", "")
-            pag.wait_for_timeout(200)
-        else:
-            comprueba(False, "hay precios con los que filtrar")
-
-        print("\n5. Filtro de plataforma")
-        fuente = sorted(fuentes_datos)[0]
-        esperado = sum(1 for i in activos if i["fuente"] == fuente)
-        pag.click(f'.chip[data-fuente="{fuente}"]')
-        pag.wait_for_timeout(250)
-        n = pag.locator(".card").count()
-        comprueba(n == esperado, f"«{fuente}» → {n} fichas (esperadas {esperado})")
-        pag.click(f'.chip[data-fuente="{fuente}"]')
-        pag.wait_for_timeout(200)
-
-        print("\n6. Filtro de radio")
-        pag.eval_on_selector("#f-dist", "el => { el.value = 15; el.dispatchEvent(new Event('input')); }")
-        pag.wait_for_timeout(250)
-        esperado = sum(1 for i in activos if (i.get("distancia_km") is None or i["distancia_km"] <= 15))
-        n = pag.locator(".card").count()
-        comprueba(n == esperado, f"radio 15 km → {n} fichas (esperadas {esperado})")
-        pag.click("#f-reset")
-        pag.wait_for_timeout(250)
-        comprueba(pag.locator(".card").count() == len(activos), "«Limpiar» restaura el listado")
-
-        print("\n7. Ficha de detalle")
-        pag.locator(".card").first.click()
-        pag.wait_for_timeout(400)
-        comprueba(pag.locator("#panel[open]").count() == 1, "se abre el panel de detalle")
-        cta = pag.locator(".cta").first
-        href = cta.get_attribute("href") or ""
-        comprueba(href.startswith("http"), f"enlace al anuncio original: {href[:70]}")
-        comprueba("Plataforma" in pag.inner_text("#panel-in"), "la ficha indica la plataforma")
-        pag.screenshot(path=str(salida / "detalle.png"))
-        pag.keyboard.press("Escape")
-        pag.wait_for_timeout(300)
-
-        print("\n8. Capturas")
-        pag.screenshot(path=str(salida / "escritorio.png"), full_page=False)
+        print("\n— Móvil —")
         movil = nav.new_page(viewport={"width": 390, "height": 844})
-        movil.goto(f"http://127.0.0.1:{PUERTO}/index.html", wait_until="networkidle")
+        movil.goto(f"http://127.0.0.1:{PUERTO}/index.html")
+        movil.click("#buscar")
         movil.wait_for_selector(".card", timeout=15000)
-        desbordamiento = movil.evaluate(
+        desborde = movil.evaluate(
             "() => document.documentElement.scrollWidth - document.documentElement.clientWidth")
-        comprueba(desbordamiento <= 0, f"sin desbordamiento horizontal en móvil ({desbordamiento}px)")
+        comprueba(desborde <= 0, f"sin desbordamiento horizontal ({desborde}px)")
         movil.screenshot(path=str(salida / "movil.png"))
-        comprueba(not errores_js, f"sin errores de JavaScript al final {errores_js[:2]}")
         nav.close()
 
     httpd.shutdown()
-    print("\n" + ("QA UI ✗ " + str(len(fallos)) + " fallos" if fallos else "QA UI ✓ interfaz operativa"))
+    print("\n" + (f"QA UI ✗ {len(fallos)} fallos" if fallos else "QA UI ✓ interfaz operativa"))
     return 1 if fallos else 0
 
 

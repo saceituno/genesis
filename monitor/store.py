@@ -9,9 +9,14 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from . import vigencia
 from .models import Inmueble, ahora
 
 RUTA = Path(__file__).resolve().parent.parent / "data" / "listings.json"
+# La página se abre a menudo con doble clic (file://), donde el navegador prohíbe
+# fetch() por CORS. Un .js con los mismos datos se carga con <script> sin ese
+# problema, así que se emiten los dos.
+RUTA_JS = RUTA.with_suffix(".js")
 
 # Campos que, si vienen vacíos en la nueva pasada, no deben pisar lo ya guardado.
 _NO_PISAR = ("imagen", "lat", "lon", "distancia_km", "superficie_m2", "terreno_m2",
@@ -73,6 +78,19 @@ def fusiona(previo: dict, nuevos: list[Inmueble], origenes_ok: list[str]) -> tup
             d["baja_detectada"] = ts
             bajas += 1
 
+    # Retirar lo que ya no está en proceso aunque el portal no lo haya dicho:
+    # un plazo vencido ayer basta para que no deba figurar en el listado.
+    caducados = 0
+    for d in indice.values():
+        if not d.get("activo", True):
+            continue
+        sigue, motivo = vigencia.revisa(d)
+        if not sigue:
+            d["activo"] = False
+            d["baja_detectada"] = ts
+            d["baja_motivo"] = motivo
+            caducados += 1
+
     inmuebles = sorted(
         indice.values(),
         key=lambda d: (not d.get("activo", True), d.get("distancia_km") or 9e9),
@@ -85,10 +103,19 @@ def fusiona(previo: dict, nuevos: list[Inmueble], origenes_ok: list[str]) -> tup
         "inmuebles": inmuebles,
     }
     return estado, {"altas": len(altas), "actualizados": actualizados, "bajas": bajas,
-                    "total": len(inmuebles),
+                    "caducados": caducados, "total": len(inmuebles),
                     "activos": sum(1 for d in inmuebles if d.get("activo", True))}
 
 
 def guarda(estado: dict, ruta: Path = RUTA) -> None:
-    Path(ruta).parent.mkdir(parents=True, exist_ok=True)
-    Path(ruta).write_text(json.dumps(estado, ensure_ascii=False, indent=1), "utf-8")
+    """Guarda el listado como JSON y como JS (este último para abrirlo en local)."""
+    ruta = Path(ruta)
+    ruta.parent.mkdir(parents=True, exist_ok=True)
+    ruta.write_text(json.dumps(estado, ensure_ascii=False, indent=1), "utf-8")
+
+    publico = dict(estado, inmuebles=[d for d in estado["inmuebles"] if d.get("activo", True)])
+    ruta.with_suffix(".js").write_text(
+        "/* Generado por el monitor. La página lo carga con <script> para poder\n"
+        "   abrirse también desde el disco, donde fetch() está prohibido. */\n"
+        "window.SUBASTAS = " + json.dumps(publico, ensure_ascii=False) + ";\n"
+        "window.dispatchEvent(new Event('subastas:listas'));\n", "utf-8")

@@ -54,7 +54,8 @@ main { max-width: 1280px; margin: 0 auto; padding: 8px 20px 40px; }
 .card:hover { transform: translateY(-2px); box-shadow: var(--shadow);
               border-color: color-mix(in srgb, var(--accent) 35%, var(--border)); }
 .foto { position: relative; aspect-ratio: 4/3; background: var(--surface-2); overflow: hidden; }
-.foto img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.foto img { position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; display: block; }
 .sinfoto { position: absolute; inset: 0; display: grid; place-content: center; gap: 6px;
            text-align: center; color: var(--muted); font-size: 12px; padding: 12px; }
 .sinfoto span { font-size: 26px; opacity: .5; }

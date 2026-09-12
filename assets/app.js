@@ -72,9 +72,11 @@
     return `
     <a class="card" href="${esc(d.url)}" target="_blank" rel="noopener">
       <div class="foto">
+        <div class="sinfoto"><span>⌂</span>${esc(d.municipio || "Sin imagen")}</div>
         ${d.imagen
+          /* El marcador va debajo: si la foto del portal no carga, queda a la vista. */
           ? `<img loading="lazy" alt="" src="${esc(d.imagen)}" onerror="this.remove()">`
-          : `<div class="sinfoto"><span>⌂</span>${esc(d.municipio || "Sin imagen")}</div>`}
+          : ""}
         <span class="badge">${esc(d.fuente)}</span>
       </div>
       <div class="cuerpo">
